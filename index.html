@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>班级美食地图</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FF6B6B',
+            secondary: '#4ECDC4',
+            accent: '#FFE66D',
+            dark: '#2C3E50',
+            light: '#F7F9FC'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .card-hover {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    .hero-gradient {
+      background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+    }
+  </style>
+</head>
+<body class="bg-light font-sans">
+  <!-- 顶部 Hero 区 -->
+  <header class="hero-gradient text-white py-20 md:py-28">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4">班级美食地图</h1>
+      <p class="text-lg md:text-xl opacity-90">发现身边美味 · 分享舌尖故事</p>
+    </div>
+  </header>
+
+  <!-- 内容卡片区 -->
+  <main class="container mx-auto px-4 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      
+      <!-- 卡片 1 -->
+      <article class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+        <img src="https://picsum.photos/400/300?random=1" alt="老北京炸酱面" class="w-full h-48 object-cover">
+        <div class="p-6">
+          <h2 class="text-xl font-bold text-dark mb-2">老北京炸酱面</h2>
+          <p class="text-gray-600 leading-relaxed">
+            校门口王大爷的拿手绝活，手工擀面配上秘制肉酱，黄瓜丝萝卜丝铺满碗，一口下去满嘴留香，同学们排队也要吃！
+          </p>
+        </div>
+      </article>
+
+      <!-- 卡片 2 -->
+      <article class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+        <img src="https://picsum.photos/400/300?random=2" alt="重庆小面" class="w-full h-48 object-cover">
+        <div class="p-6">
+          <h2 class="text-xl font-bold text-dark mb-2">重庆小面</h2>
+          <p class="text-gray-600 leading-relaxed">
+            后街小巷里的宝藏面馆，红油辣子配上花生碎，麻辣鲜香层次分明。微辣是最后的妥协，吃完额头冒汗直呼过瘾！
+          </p>
+        </div>
+      </article>
+
+      <!-- 卡片 3 -->
+      <article class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+        <img src="https://picsum.photos/400/300?random=3" alt="广式肠粉" class="w-full h-48 object-cover">
+        <div class="p-6">
+          <h2 class="text-xl font-bold text-dark mb-2">广式肠粉</h2>
+          <p class="text-gray-600 leading-relaxed">
+            早餐界的温柔担当，薄如蝉翼的米皮裹着鲜虾牛肉，淋上甜酱油，入口滑嫩鲜美。早八人的续命神器，吃完元气满满！
+          </p>
+        </div>
+      </article>
+
+      <!-- 卡片 4 -->
+      <article class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+        <img src="https://picsum.photos/400/300?random=4" alt="西安肉夹馍" class="w-full h-48 object-cover">
+        <div class="p-6">
+          <h2 class="text-xl font-bold text-dark mb-2">西安肉夹馍</h2>
+          <p class="text-gray-600 leading-relaxed">
+            白吉馍外酥里嫩，腊汁肉肥而不腻，一口咬下肉汁四溢。老板说这是"中式汉堡"，但比汉堡好吃一百倍，碳水快乐不过如此！
+          </p>
+        </div>
+      </article>
+
+      <!-- 卡片 5 -->
+      <article class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+        <img src="https://picsum.photos/400/300?random=5" alt="长沙臭豆腐" class="w-full h-48 object-cover">
+        <div class="p-6">
+          <h2 class="text-xl font-bold text-dark mb-2">长沙臭豆腐</h2>
+          <p class="text-gray-600 leading-relaxed">
+            闻着臭吃着香的典范，外焦里嫩的黑豆腐配上辣椒萝卜丁，浇上秘制汤汁。第一次吃是挑战，第二次吃是上瘾！
+          </p>
+        </div>
+      </article>
+
+      <!-- 卡片 6 -->
+      <article class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+        <img src="https://picsum.photos/400/300?random=6" alt="台湾蚵仔煎" class="w-full h-48 object-cover">
+        <div class="p-6">
+          <h2 class="text-xl font-bold text-dark mb-2">台湾蚵仔煎</h2>
+          <p class="text-gray-600 leading-relaxed">
+            夜市人气王，新鲜牡蛎配上鸡蛋地瓜粉，煎得外酥内软，淋上甜辣酱。海的味道、夜市的热闹，全在这口小吃里！
+          </p>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <!-- 底部 -->
+  <footer class="bg-dark text-white py-8">
+    <div class="container mx-auto px-4 text-center">
+      <p class="text-sm opacity-80">趣味主题展示站 | GitHub Pages 部署 | 2026</p>
+    </div>
+  </footer>
+
+  <!-- 脚本 -->
+  <script>
+    // 页面加载完成后执行
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('班级美食地图加载完成');
+      
+      // 为卡片添加渐入动画
+      const cards = document.querySelectorAll('article');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.style.opacity = '1';
+              entry.target.style.transform = 'translateY(0)';
+            }, index * 100);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      cards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        observer.observe(card);
+      });
+    });
+  </script>
+</body>
+</html>
