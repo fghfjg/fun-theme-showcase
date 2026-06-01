@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>老鱼 - 个人简历</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -135,10 +136,10 @@
         <div class="w-32 h-32 rounded-full bg-white/20 border-4 border-white/30 flex items-center justify-center text-6xl shrink-0">
           🧑‍💻
         </div>
-        <div class="text-center md:text-left">
+        <div class="text-center md:text-left flex-1">
           <h1 class="text-4xl md:text-5xl font-bold mb-2">老鱼</h1>
           <p class="text-xl opacity-90 mb-4">Web前端开发工程师</p>
-          <div class="flex flex-wrap justify-center md:justify-start gap-4 text-sm">
+          <div class="flex flex-wrap justify-center md:justify-start gap-4 text-sm mb-4">
             <span class="flex items-center gap-1">
               <span>📱</span> 15372232131
             </span>
@@ -149,13 +150,17 @@
               <span>📍</span> 杭州
             </span>
           </div>
+          <button id="downloadPdf" onclick="downloadAsPDF()" class="inline-flex items-center gap-2 bg-white text-primary px-5 py-2.5 rounded-full font-semibold hover:shadow-lg transition-all hover:-translate-y-1">
+            <span>📄</span>
+            <span>下载PDF简历</span>
+          </button>
         </div>
       </div>
     </div>
   </header>
 
   <main class="container mx-auto px-4 py-12">
-    <div class="max-w-4xl mx-auto space-y-10">
+    <div id="resumeContent" class="max-w-4xl mx-auto space-y-10">
 
       <section class="bg-white rounded-2xl shadow-lg p-8 card-hover">
         <h2 class="text-2xl font-bold text-dark mb-6 flex items-center gap-3 border-b pb-4">
@@ -387,6 +392,41 @@
   </div>
 
   <script>
+    function downloadAsPDF() {
+      const element = document.getElementById('resumeContent');
+      const button = document.getElementById('downloadPdf');
+      button.innerHTML = '<span>⏳</span><span>生成中...</span>';
+      button.disabled = true;
+      
+      const opt = {
+        margin: [10, 10, 10, 10],
+        filename: '老鱼-个人简历.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { 
+          scale: 2, 
+          useCORS: true,
+          logging: false,
+          backgroundColor: '#f7f9fc'
+        },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+      };
+
+      html2pdf().set(opt).from(element).save().then(() => {
+        button.innerHTML = '<span>✅</span><span>下载完成</span>';
+        setTimeout(() => {
+          button.innerHTML = '<span>📄</span><span>下载PDF简历</span>';
+          button.disabled = false;
+        }, 2000);
+      }).catch(err => {
+        button.innerHTML = '<span>❌</span><span>下载失败</span>';
+        button.disabled = false;
+        setTimeout(() => {
+          button.innerHTML = '<span>📄</span><span>下载PDF简历</span>';
+        }, 2000);
+      });
+    }
+
     window.addEventListener('scroll', () => {
       const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
       const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
