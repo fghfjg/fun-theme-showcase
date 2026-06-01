@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>班级美食地图</title>
+  <title>班级美食地图 - 趣味主题展示站</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -24,15 +24,15 @@
     }
   </script>
   <style>
+    .hero-gradient {
+      background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+    }
     .card-hover {
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     .card-hover:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    }
-    .hero-gradient {
-      background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.1);
     }
     .scroll-progress {
       position: fixed;
@@ -69,7 +69,7 @@
       transform: translateY(-5px);
       box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);
     }
-    .lightbox {
+    .lightbox-overlay {
       position: fixed;
       top: 0;
       left: 0;
@@ -84,15 +84,27 @@
       visibility: hidden;
       transition: all 0.3s ease;
     }
-    .lightbox.active {
+    .lightbox-overlay.visible {
       opacity: 1;
       visibility: visible;
     }
-    .lightbox img {
-      max-width: 90%;
-      max-height: 90%;
-      object-fit: contain;
-      border-radius: 8px;
+    .lightbox-content {
+      max-width: 90vw;
+      max-height: 90vh;
+      position: relative;
+    }
+    .lightbox-content img {
+      max-width: 100%;
+      max-height: 85vh;
+      border-radius: 12px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    .lightbox-caption {
+      color: white;
+      text-align: center;
+      margin-top: 15px;
+      font-size: 18px;
+      font-weight: 500;
     }
     .lightbox-nav {
       position: absolute;
@@ -205,65 +217,63 @@
 
   <header class="hero-gradient text-white py-20 md:py-28 relative overflow-hidden">
     <div class="absolute inset-0 opacity-10">
-      <div class="absolute top-10 left-10 text-8xl">🍜</div>
-      <div class="absolute bottom-10 right-10 text-8xl">🍔</div>
-      <div class="absolute top-1/2 left-1/4 text-6xl">🍕</div>
+      <div class="absolute top-10 right-20 text-8xl">🍜</div>
+      <div class="absolute bottom-10 left-20 text-8xl">🍲</div>
+      <div class="absolute top-1/2 left-1/4 text-6xl">🥟</div>
+      <div class="absolute top-1/3 right-1/4 text-6xl">🍤</div>
     </div>
     <div class="container mx-auto px-4 text-center relative z-10">
-      <h1 class="text-4xl md:text-6xl font-bold mb-4">班级美食地图</h1>
-      <p class="text-lg md:text-xl opacity-90 mb-6">发现身边美味 · 分享舌尖故事</p>
-      <button id="shareBtn" class="bg-white text-primary px-6 py-3 rounded-full font-semibold hover:shadow-lg transition-all flex items-center gap-2 mx-auto">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-        分享给朋友
-      </button>
+      <h1 class="text-4xl md:text-6xl font-bold mb-6">发现校园周边的宝藏美食</h1>
+      <p class="text-lg md:text-xl opacity-90 max-w-2xl mx-auto">
+        每一道美食背后都有属于它的故事，让我们一起探索身边的美味
+      </p>
     </div>
   </header>
 
   <main class="container mx-auto px-4 py-16">
-    <section id="foods">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-dark mb-4">美食列表</h2>
-        <p class="text-gray-600">发现校园周边的宝藏美食</p>
-      </div>
-
+    <section id="foods" class="mb-16">
       <div class="flex flex-wrap justify-center gap-3 mb-10">
-        <button class="category-btn active px-5 py-2 rounded-full border-2 border-primary text-primary font-medium transition-all hover:shadow-md" data-category="all">全部</button>
-        <button class="category-btn px-5 py-2 rounded-full border-2 border-secondary text-secondary font-medium transition-all hover:shadow-md" data-category="面条">面条</button>
-        <button class="category-btn px-5 py-2 rounded-full border-2 border-secondary text-secondary font-medium transition-all hover:shadow-md" data-category="小吃">小吃</button>
-        <button class="category-btn px-5 py-2 rounded-full border-2 border-secondary text-secondary font-medium transition-all hover:shadow-md" data-category="早点">早点</button>
-        <button class="category-btn px-5 py-2 rounded-full border-2 border-secondary text-secondary font-medium transition-all hover:shadow-md" data-category="夜宵">夜宵</button>
+        <button class="category-btn active px-6 py-2 rounded-full bg-gradient-to-r from-primary to-secondary text-white font-medium hover:shadow-lg transition-all" onclick="filterFoods('all')">
+          全部
+        </button>
+        <button class="category-btn px-6 py-2 rounded-full bg-white text-dark font-medium hover:shadow-lg transition-all" onclick="filterFoods('面条')">
+          面条
+        </button>
+        <button class="category-btn px-6 py-2 rounded-full bg-white text-dark font-medium hover:shadow-lg transition-all" onclick="filterFoods('小吃')">
+          小吃
+        </button>
+        <button class="category-btn px-6 py-2 rounded-full bg-white text-dark font-medium hover:shadow-lg transition-all" onclick="filterFoods('早点')">
+          早点
+        </button>
+        <button class="category-btn px-6 py-2 rounded-full bg-white text-dark font-medium hover:shadow-lg transition-all" onclick="filterFoods('夜宵')">
+          夜宵
+        </button>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="foodGrid">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="foodContainer">
       </div>
     </section>
 
-    <section id="comments" class="mt-20">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-dark mb-4">留言板</h2>
-        <p class="text-gray-600">写下你的美食心得或想说的话</p>
+    <section id="comments" class="bg-white rounded-2xl shadow-lg p-8">
+      <h2 class="text-2xl font-bold text-dark mb-6 flex items-center gap-3">
+        <span class="text-3xl">💬</span>
+        留言板
+      </h2>
+
+      <div class="mb-8">
+        <input type="text" id="commentName" placeholder="您的昵称" class="w-full md:w-1/3 px-4 py-3 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all mb-4">
+        <textarea id="commentText" placeholder="分享您的美食心得..." rows="4" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"></textarea>
+        <button onclick="addComment()" class="mt-4 bg-gradient-to-r from-primary to-secondary text-white px-6 py-2 rounded-full font-medium hover:shadow-lg transition-all">
+          发表留言
+        </button>
       </div>
 
-      <div class="max-w-2xl mx-auto">
-        <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
-          <form id="commentForm" class="space-y-4">
-            <div>
-              <input type="text" id="nicknameInput" placeholder="请输入昵称" maxlength="20" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-            </div>
-            <div>
-              <textarea id="commentInput" placeholder="说点什么吧..." rows="4" maxlength="500" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"></textarea>
-            </div>
-            <button type="submit" class="w-full bg-gradient-to-r from-primary to-secondary text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">发布留言</button>
-          </form>
-        </div>
-
-        <div id="commentsList" class="space-y-4">
-        </div>
+      <div id="commentList" class="space-y-4">
       </div>
     </section>
   </main>
 
-  <footer class="bg-dark text-white py-8">
+  <footer class="bg-dark text-white py-8 mt-10">
     <div class="container mx-auto px-4 text-center">
       <p class="text-sm opacity-80 mb-4">趣味主题展示站 | GitHub Pages 部署 | 2026</p>
       <a href="resume.html" class="inline-flex items-center gap-2 text-primary hover:text-secondary transition-colors">
@@ -277,29 +287,32 @@
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
   </div>
 
-  <div class="lightbox" id="lightbox">
-    <button class="lightbox-close" id="lightboxClose">✕</button>
-    <button class="lightbox-nav lightbox-prev" id="lightboxPrev">❮</button>
-    <button class="lightbox-nav lightbox-next" id="lightboxNext">❯</button>
-    <img src="" alt="" id="lightboxImg">
+  <div class="lightbox-overlay" id="lightbox">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <button class="lightbox-nav lightbox-prev" onclick="prevImage()">‹</button>
+    <button class="lightbox-nav lightbox-next" onclick="nextImage()">›</button>
+    <div class="lightbox-content">
+      <img id="lightboxImage" src="" alt="">
+      <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
   </div>
 
   <div class="share-toast" id="shareToast">链接已复制到剪贴板！</div>
 
   <script>
     const foods = [
-      { id: 1, name: '老北京炸酱面', category: '面条', desc: '校门口王大爷的拿手绝活，手工擀面配上秘制肉酱，黄瓜丝萝卜丝铺满碗，一口下去满嘴留香，同学们排队也要吃！', img: 'https://picsum.photos/400/300?random=1' },
-      { id: 2, name: '重庆小面', category: '面条', desc: '后街小巷里的宝藏面馆，红油辣子配上花生碎，麻辣鲜香层次分明。微辣是最后的妥协，吃完额头冒汗直呼过瘾！', img: 'https://picsum.photos/400/300?random=2' },
-      { id: 3, name: '广式肠粉', category: '早点', desc: '早餐界的温柔担当，薄如蝉翼的米皮裹着鲜虾牛肉，淋上甜酱油，入口滑嫩鲜美。早八人的续命神器，吃完元气满满！', img: 'https://picsum.photos/400/300?random=3' },
-      { id: 4, name: '西安肉夹馍', category: '小吃', desc: '白吉馍外酥里嫩，腊汁肉肥而不腻，一口咬下肉汁四溢。老板说这是"中式汉堡"，但比汉堡好吃一百倍！', img: 'https://picsum.photos/400/300?random=4' },
-      { id: 5, name: '长沙臭豆腐', category: '小吃', desc: '闻着臭吃着香的典范，外焦里嫩的黑豆腐配上辣椒萝卜丁，浇上秘制汤汁。第一次吃是挑战，第二次吃是上瘾！', img: 'https://picsum.photos/400/300?random=5' },
-      { id: 6, name: '台湾蚵仔煎', category: '夜宵', desc: '夜市人气王，新鲜牡蛎配上鸡蛋地瓜粉，煎得外酥内软，淋上甜辣酱。海的味道、夜市的热闹，全在这口小吃里！', img: 'https://picsum.photos/400/300?random=6' },
-      { id: 7, name: '武汉热干面', category: '面条', desc: '芝麻酱爱好者的天堂，面条筋道有嚼劲，淋上香浓芝麻酱和辣油，拌一拌，香气扑鼻。这是武汉人过早的灵魂！', img: 'https://picsum.photos/400/300?random=7' },
-      { id: 8, name: '广东早茶', category: '早点', desc: '一盅两件，精致生活。虾饺、烧麦、凤爪、蛋挞...推车叫卖声是清晨最美的旋律。吃早茶吃的不仅是味道，更是仪式感！', img: 'https://picsum.photos/400/300?random=8' },
-      { id: 9, name: '四川冒菜', category: '小吃', desc: '一个人的火锅，冒菜！各种蔬菜丸子泡在红油汤底里，麻酱蒜泥香菜标配，越吃越上头，根本停不下来！', img: 'https://picsum.photos/400/300?random=9' },
-      { id: 10, name: '山东煎饼', category: '早点', desc: '绿叶棚下的烟火气，纯杂粮面糊摊成薄饼，鸡蛋薄脆是灵魂，甜面酱辣条葱花香菜自由搭配，便宜大碗顶饿一上午！', img: 'https://picsum.photos/400/300?random=10' },
-      { id: 11, name: '广东潮汕牛肉火锅', category: '夜宵', desc: '现切牛肉，部位繁多。匙柄、五花趾、吊龙...涮8秒即食，蘸上沙茶酱，鲜嫩到飞起。吃完感觉灵魂都被涮了一遍！', img: 'https://picsum.photos/400/300?random=11' },
-      { id: 12, name: '云南过桥米线', category: '面条', desc: '仪式感满分的米线，土鸡熬制的高汤滚烫倒入，依次放入配菜和米线，温度刚好煨熟每一根米线。鲜美无比！', img: 'https://picsum.photos/400/300?random=12' }
+      { id: 1, name: '老北京炸酱面', category: '面条', desc: '校门口王大爷的拿手绝活，手工擀面配上秘制肉酱，黄瓜丝萝卜丝铺满碗，一口下去满嘴留香，同学们排队也要吃！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=traditional%20chinese%20zhajiang%20noodles%20with%20meat%20sauce%20and%20vegetables%20on%20top%20food%20photography&image_size=landscape_4_3' },
+      { id: 2, name: '重庆小面', category: '面条', desc: '后街小巷里的宝藏面馆，红油辣子配上花生碎，麻辣鲜香层次分明。微辣是最后的妥协，吃完额头冒汗直呼过瘾！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=chongqing%20spicy%20noodles%20with%20red%20chili%20oil%20and%20peanuts%20food%20photography&image_size=landscape_4_3' },
+      { id: 3, name: '广式肠粉', category: '早点', desc: '早餐界的温柔担当，薄如蝉翼的米皮裹着鲜虾牛肉，淋上甜酱油，入口滑嫩鲜美。早八人的续命神器，吃完元气满满！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=guangzhou%20steamed%20rice%20rolls%20changfen%20with%20shrimp%20and%20beef%20chinese%20breakfast%20food%20photography&image_size=landscape_4_3' },
+      { id: 4, name: '西安肉夹馍', category: '小吃', desc: '白吉馍外酥里嫩，腊汁肉肥而不腻，一口咬下肉汁四溢。老板说这是"中式汉堡"，但比汉堡好吃一百倍！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=xian%20roujiamo%20chinese%20hamburger%20with%20braised%20pork%20meat%20food%20photography&image_size=landscape_4_3' },
+      { id: 5, name: '长沙臭豆腐', category: '小吃', desc: '闻着臭吃着香的典范，外焦里嫩的黑豆腐配上辣椒萝卜丁，浇上秘制汤汁。第一次吃是挑战，第二次吃是上瘾！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=changsha%20stinky%20tofu%20fried%20black%20tofu%20with%20spicy%20sauce%20chinese%20street%20food%20photography&image_size=landscape_4_3' },
+      { id: 6, name: '台湾蚵仔煎', category: '夜宵', desc: '夜市人气王，新鲜牡蛎配上鸡蛋地瓜粉，煎得外酥内软，淋上甜辣酱。海的味道、夜市的热闹，全在这口小吃里！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=taiwanese%20oyster%20omelet%20fried%20oysters%20with%20egg%20and%20sweet%20sauce%20night%20market%20food%20photography&image_size=landscape_4_3' },
+      { id: 7, name: '武汉热干面', category: '面条', desc: '芝麻酱爱好者的天堂，面条筋道有嚼劲，淋上香浓芝麻酱和辣油，拌一拌，香气扑鼻。这是武汉人过早的灵魂！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=wuhan%20reganmian%20hot%20dry%20noodles%20with%20sesame%20paste%20and%20scallions%20food%20photography&image_size=landscape_4_3' },
+      { id: 8, name: '广东早茶', category: '早点', desc: '一盅两件，精致生活。虾饺、烧麦、凤爪、蛋挞...推车叫卖声是清晨最美的旋律。吃早茶吃的不仅是味道，更是仪式感！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=cantonese%20morning%20tea%20dim%20sum%20har%20gaw%20shrimp%20dumplings%20siu%20mai%20food%20photography&image_size=landscape_4_3' },
+      { id: 9, name: '四川冒菜', category: '小吃', desc: '一个人的火锅，冒菜！各种蔬菜丸子泡在红油汤底里，麻酱蒜泥香菜标配，越吃越上头，根本停不下来！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=sichuan%20maocai%20spicy%20vegetables%20and%20meat%20in%20red%20oil%20soup%20chinese%20food%20photography&image_size=landscape_4_3' },
+      { id: 10, name: '山东煎饼', category: '早点', desc: '绿叶棚下的烟火气，纯杂粮面糊摊成薄饼，鸡蛋薄脆是灵魂，甜面酱辣条葱花香菜自由搭配，便宜大碗顶饿一上午！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=shandong%20pancake%20jianbing%20with%20egg%20and%20vegetables%20chinese%20street%20food%20photography&image_size=landscape_4_3' },
+      { id: 11, name: '广东潮汕牛肉火锅', category: '夜宵', desc: '现切牛肉，部位繁多。匙柄、五花趾、吊龙...涮8秒即食，蘸上沙茶酱，鲜嫩到飞起。吃完感觉灵魂都被涮了一遍！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=chaoshan%20beef%20hotpot%20with%20fresh%20sliced%20beef%20chinese%20hot%20pot%20food%20photography&image_size=landscape_4_3' },
+      { id: 12, name: '云南过桥米线', category: '面条', desc: '仪式感满分的米线，土鸡熬制的高汤滚烫倒入，依次放入配菜和米线，温度刚好煨熟每一根米线。鲜美无比！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=yunnan%20crossing%20bridge%20rice%20noodles%20with%20soup%20and%20fresh%20ingredients%20food%20photography&image_size=landscape_4_3' }
     ];
 
     let currentLightboxIndex = 0;
@@ -346,7 +359,7 @@
       let stars = '';
       for (let i = 1; i <= 5; i++) {
         const filled = i <= Math.round(avg);
-        stars += `<span class="star ${filled ? 'active' : ''}" data-value="${i}" style="color: ${filled ? '#FFE66D' : '#ddd'};">★</span>`;
+        stars += `<span class="star ${filled ? 'active' : ''}" data-value="${i}" style="color: ${filled ? '#FFE66D' : '#ddd'}">★</span>`;
       }
       return stars + `<span class="text-sm text-gray-500 ml-1">(${avg})</span>`;
     }
@@ -368,13 +381,16 @@
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
                 <button class="like-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike(${food.id})">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="${isLiked ? '#FF6B6B' : 'none'}" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${isLiked ? '#FF6B6B' : '#ddd'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                 </button>
-                <span class="text-gray-600 like-count">${likeCount}</span>
+                <span class="text-sm text-gray-500">${likeCount}</span>
               </div>
-              <div class="star-rating" onclick="event.stopPropagation()">
-                ${renderStars(getAverageRating(food.id), food.id)}
+              <div class="star-rating flex items-center gap-1" data-food-id="${food.id}">
+                ${renderStars(null, food.id)}
               </div>
+              <button class="share-btn text-gray-400 hover:text-primary transition-colors" onclick="shareFood(${index})">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+              </button>
             </div>
           </div>
         </article>
@@ -382,16 +398,31 @@
     }
 
     function renderFoods() {
-      const grid = document.getElementById('foodGrid');
-      const filteredFoods = currentCategory === 'all'
-        ? foods
-        : foods.filter(f => f.category === currentCategory);
+      const container = document.getElementById('foodContainer');
+      const filteredFoods = currentCategory === 'all' ? foods : foods.filter(f => f.category === currentCategory);
+      lightboxImages = filteredFoods.map(f => ({ img: f.img, name: f.name }));
+      container.innerHTML = filteredFoods.map((food, index) => createFoodCard(food, index)).join('');
+      
+      document.querySelectorAll('.star-rating').forEach(el => {
+        el.addEventListener('click', function(e) {
+          const foodId = parseInt(this.dataset.foodId);
+          const star = e.target;
+          if (star.classList.contains('star')) {
+            const rating = parseInt(star.dataset.value);
+            setFoodRating(foodId, rating);
+            this.innerHTML = renderStars(rating, foodId);
+          }
+        });
+      });
 
-      grid.innerHTML = filteredFoods.map((food, index) => createFoodCard(food, foods.indexOf(food))).join('');
+      lazyLoadImages();
+    }
 
-      lightboxImages = foods.map(f => ({ src: f.img.replace('400/300', '800/600'), name: f.name }));
-
-      observeLazyImages();
+    function filterFoods(category) {
+      currentCategory = category;
+      document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      renderFoods();
     }
 
     function toggleLike(foodId) {
@@ -399,187 +430,193 @@
       const currentCount = likes[foodId] || 0;
       const newCount = currentCount > 0 ? 0 : 1;
       setLike(foodId, newCount);
-      renderFoods();
-    }
-
-    function handleStarClick(foodId, value) {
-      setFoodRating(foodId, value);
-      renderFoods();
-    }
-
-    document.querySelectorAll('.category-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentCategory = btn.dataset.category;
-        renderFoods();
-      });
-    });
-
-    document.addEventListener('click', (e) => {
-      if (e.target.classList.contains('star')) {
-        const card = e.target.closest('article');
-        if (card) {
-          const index = parseInt(card.querySelector('img').dataset.index);
-          handleStarClick(foods[index].id, parseInt(e.target.dataset.value));
-        }
+      
+      const likeBtn = event.target.closest('.like-btn');
+      const countSpan = likeBtn.nextElementSibling;
+      if (newCount > 0) {
+        likeBtn.classList.add('liked');
+      } else {
+        likeBtn.classList.remove('liked');
       }
-    });
+      countSpan.textContent = newCount;
+    }
 
     function openLightbox(index) {
       currentLightboxIndex = index;
       const lightbox = document.getElementById('lightbox');
-      const img = document.getElementById('lightboxImg');
-      img.src = lightboxImages[index].src;
-      img.alt = lightboxImages[index].name;
-      lightbox.classList.add('active');
+      const image = document.getElementById('lightboxImage');
+      const caption = document.getElementById('lightboxCaption');
+      
+      image.src = lightboxImages[index].img;
+      caption.textContent = lightboxImages[index].name;
+      lightbox.classList.add('visible');
       document.body.style.overflow = 'hidden';
     }
 
     function closeLightbox() {
-      document.getElementById('lightbox').classList.remove('active');
+      const lightbox = document.getElementById('lightbox');
+      lightbox.classList.remove('visible');
       document.body.style.overflow = '';
     }
 
-    function navigateLightbox(direction) {
-      currentLightboxIndex = (currentLightboxIndex + direction + lightboxImages.length) % lightboxImages.length;
-      document.getElementById('lightboxImg').src = lightboxImages[currentLightboxIndex].src;
-      document.getElementById('lightboxImg').alt = lightboxImages[currentLightboxIndex].name;
+    function prevImage() {
+      currentLightboxIndex = (currentLightboxIndex - 1 + lightboxImages.length) % lightboxImages.length;
+      updateLightbox();
     }
 
-    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
-    document.getElementById('lightboxPrev').addEventListener('click', () => navigateLightbox(-1));
-    document.getElementById('lightboxNext').addEventListener('click', () => navigateLightbox(1));
+    function nextImage() {
+      currentLightboxIndex = (currentLightboxIndex + 1) % lightboxImages.length;
+      updateLightbox();
+    }
 
-    document.getElementById('lightbox').addEventListener('click', (e) => {
-      if (e.target.id === 'lightbox') closeLightbox();
+    function updateLightbox() {
+      const image = document.getElementById('lightboxImage');
+      const caption = document.getElementById('lightboxCaption');
+      image.src = lightboxImages[currentLightboxIndex].img;
+      caption.textContent = lightboxImages[currentLightboxIndex].name;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      const lightbox = document.getElementById('lightbox');
+      if (!lightbox.classList.contains('visible')) return;
+      
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') prevImage();
+      if (e.key === 'ArrowRight') nextImage();
     });
 
     let touchStartX = 0;
-    document.getElementById('lightbox').addEventListener('touchstart', (e) => {
-      touchStartX = e.touches[0].clientX;
+    let touchEndX = 0;
+    
+    document.getElementById('lightbox').addEventListener('touchstart', function(e) {
+      touchStartX = e.changedTouches[0].screenX;
     });
-    document.getElementById('lightbox').addEventListener('touchend', (e) => {
-      const touchEndX = e.changedTouches[0].clientX;
+    
+    document.getElementById('lightbox').addEventListener('touchend', function(e) {
+      touchEndX = e.changedTouches[0].screenX;
       const diff = touchStartX - touchEndX;
       if (Math.abs(diff) > 50) {
-        navigateLightbox(diff > 0 ? 1 : -1);
+        if (diff > 0) {
+          nextImage();
+        } else {
+          prevImage();
+        }
       }
     });
 
-    document.addEventListener('keydown', (e) => {
-      if (!document.getElementById('lightbox').classList.contains('active')) return;
-      if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowLeft') navigateLightbox(-1);
-      if (e.key === 'ArrowRight') navigateLightbox(1);
-    });
-
-    function observeLazyImages() {
-      const images = document.querySelectorAll('img[lazy]');
+    function lazyLoadImages() {
+      const lazyImages = document.querySelectorAll('img[lazy]');
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            entry.target.src = entry.target.dataset.src || entry.target.src;
-            entry.target.classList.add('loaded');
-            observer.unobserve(entry.target);
+            const img = entry.target;
+            img.src = img.getAttribute('src');
+            img.classList.add('loaded');
+            observer.unobserve(img);
           }
         });
-      }, { rootMargin: '100px' });
-      images.forEach(img => observer.observe(img));
+      }, { threshold: 0.1 });
+      
+      lazyImages.forEach(img => observer.observe(img));
+    }
+
+    function shareFood(index) {
+      const food = lightboxImages[index] || foods[index];
+      const shareUrl = window.location.href;
+      const shareText = `快来看看「${food.name}」！${shareUrl}`;
+      
+      if (navigator.share) {
+        navigator.share({
+          title: food.name,
+          text: shareText,
+          url: shareUrl
+        }).catch(() => {
+          copyToClipboard(shareUrl);
+        });
+      } else {
+        copyToClipboard(shareUrl);
+      }
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast();
+      }).catch(() => {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        showToast();
+      });
+    }
+
+    function showToast() {
+      const toast = document.getElementById('shareToast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
     }
 
     function getComments() {
-      return JSON.parse(localStorage.getItem('foodComments') || '[]');
+      return JSON.parse(localStorage.getItem('comments') || '[]');
     }
 
-    function saveComment(comment) {
+    function setComments(comments) {
+      localStorage.setItem('comments', JSON.stringify(comments));
+    }
+
+    function addComment() {
+      const name = document.getElementById('commentName').value.trim();
+      const text = document.getElementById('commentText').value.trim();
+      
+      if (!name || !text) {
+        alert('请填写昵称和留言内容');
+        return;
+      }
+      
       const comments = getComments();
-      comments.unshift(comment);
-      if (comments.length > 10) comments.pop();
-      localStorage.setItem('foodComments', JSON.stringify(comments));
+      comments.unshift({
+        id: Date.now(),
+        name: name,
+        text: text,
+        time: new Date().toLocaleString('zh-CN')
+      });
+      
+      if (comments.length > 10) {
+        comments.pop();
+      }
+      
+      setComments(comments);
+      renderComments();
+      
+      document.getElementById('commentName').value = '';
+      document.getElementById('commentText').value = '';
     }
 
     function renderComments() {
       const comments = getComments();
-      const list = document.getElementById('commentsList');
-
+      const container = document.getElementById('commentList');
+      
       if (comments.length === 0) {
-        list.innerHTML = '<p class="text-center text-gray-500 py-8">还没有留言，快来抢沙发吧！</p>';
+        container.innerHTML = '<p class="text-gray-500 text-center py-8">还没有留言，快来分享你的美食心得吧！</p>';
         return;
       }
-
-      list.innerHTML = comments.map((c, i) => `
-        <div class="comment-item bg-white rounded-xl shadow p-5">
-          <div class="flex items-center gap-3 mb-3">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold">
-              ${c.nickname.charAt(0).toUpperCase()}
+      
+      container.innerHTML = comments.map(comment => `
+        <div class="comment-item p-4 bg-light rounded-xl">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-semibold">
+              ${comment.name.charAt(0)}
             </div>
             <div>
-              <div class="font-semibold text-dark">${escapeHtml(c.nickname)}</div>
-              <div class="text-xs text-gray-400">${c.time}</div>
+              <span class="font-medium text-dark">${comment.name}</span>
+              <span class="text-sm text-gray-400 ml-3">${comment.time}</span>
             </div>
           </div>
-          <p class="text-gray-600 leading-relaxed">${escapeHtml(c.text)}</p>
+          <p class="text-gray-600">${comment.text}</p>
         </div>
       `).join('');
-    }
-
-    function escapeHtml(text) {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
-    }
-
-    document.getElementById('commentForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const nickname = document.getElementById('nicknameInput').value.trim();
-      const text = document.getElementById('commentInput').value.trim();
-
-      if (!nickname || !text) {
-        alert('请填写昵称和留言内容');
-        return;
-      }
-
-      const comment = {
-        nickname,
-        text,
-        time: new Date().toLocaleString('zh-CN')
-      };
-
-      saveComment(comment);
-      document.getElementById('nicknameInput').value = '';
-      document.getElementById('commentInput').value = '';
-      renderComments();
-    });
-
-    document.getElementById('shareBtn').addEventListener('click', async () => {
-      const shareData = {
-        title: '班级美食地图',
-        text: '发现身边美味，分享舌尖故事！',
-        url: window.location.href
-      };
-
-      try {
-        if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
-          await navigator.share(shareData);
-        } else {
-          await navigator.clipboard.writeText(window.location.href);
-          showShareToast();
-        }
-      } catch (err) {
-        try {
-          await navigator.clipboard.writeText(window.location.href);
-          showShareToast();
-        } catch (e) {
-          console.log('分享失败');
-        }
-      }
-    });
-
-    function showShareToast() {
-      const toast = document.getElementById('shareToast');
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 2000);
     }
 
     window.addEventListener('scroll', () => {
@@ -587,7 +624,7 @@
       const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
       const progress = (scrollTop / scrollHeight) * 100;
       document.getElementById('scrollProgress').style.width = progress + '%';
-
+      
       const backToTop = document.getElementById('backToTop');
       if (scrollTop > 500) {
         backToTop.classList.add('visible');
@@ -600,29 +637,15 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeLightbox();
+      }
+    });
+
     document.addEventListener('DOMContentLoaded', () => {
       renderFoods();
       renderComments();
-
-      const cards = document.querySelectorAll('article');
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
-          if (entry.isIntersecting) {
-            setTimeout(() => {
-              entry.target.style.opacity = '1';
-              entry.target.style.transform = 'translateY(0)';
-            }, index * 50);
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.1 });
-
-      cards.forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-        observer.observe(card);
-      });
     });
   </script>
 </body>
