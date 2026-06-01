@@ -288,18 +288,18 @@
 
   <script>
     const foods = [
-      { id: 1, name: '老北京炸酱面', category: '面条', desc: '校门口王大爷的拿手绝活，手工擀面配上秘制肉酱，黄瓜丝萝卜丝铺满碗，一口下去满嘴留香，同学们排队也要吃！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=traditional%20chinese%20zhajiang%20noodles%20with%20meat%20sauce%20on%20top%20food%20photography&image_size=landscape_4_3' },
-      { id: 2, name: '重庆小面', category: '面条', desc: '后街小巷里的宝藏面馆，红油辣子配上花生碎，麻辣鲜香层次分明。微辣是最后的妥协，吃完额头冒汗直呼过瘾！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=chongqing%20spicy%20noodles%20with%20red%20chili%20oil%20food%20photography&image_size=landscape_4_3' },
-      { id: 3, name: '广式肠粉', category: '早点', desc: '早餐界的温柔担当，薄如蝉翼的米皮裹着鲜虾牛肉，淋上甜酱油，入口滑嫩鲜美。早八人的续命神器，吃完元气满满！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=guangzhou%20steamed%20rice%20rolls%20changfen%20with%20shrimp%20chinese%20breakfast%20food%20photography&image_size=landscape_4_3' },
-      { id: 4, name: '西安肉夹馍', category: '小吃', desc: '白吉馍外酥里嫩，腊汁肉肥而不腻，一口咬下肉汁四溢。老板说这是"中式汉堡"，但比汉堡好吃一百倍！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=xian%20roujiamo%20chinese%20hamburger%20with%20braised%20pork%20food%20photography&image_size=landscape_4_3' },
-      { id: 5, name: '长沙臭豆腐', category: '小吃', desc: '闻着臭吃着香的典范，外焦里嫩的黑豆腐配上辣椒萝卜丁，浇上秘制汤汁。第一次吃是挑战，第二次吃是上瘾！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=changsha%20stinky%20tofu%20fried%20black%20tofu%20with%20spicy%20sauce%20food%20photography&image_size=landscape_4_3' },
-      { id: 6, name: '台湾蚵仔煎', category: '夜宵', desc: '夜市人气王，新鲜牡蛎配上鸡蛋地瓜粉，煎得外酥内软，淋上甜辣酱。海的味道、夜市的热闹，全在这口小吃里！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=taiwanese%20oyster%20omelette%20fried%20eggs%20street%20food%20photography&image_size=landscape_4_3' },
-      { id: 7, name: '武汉热干面', category: '面条', desc: '芝麻酱爱好者的天堂，面条筋道有嚼劲，淋上香浓芝麻酱和辣油，拌一拌，香气扑鼻。这是武汉人过早的灵魂！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=wuhan%20hot%20dry%20noodles%20with%20sesame%20paste%20food%20photography&image_size=landscape_4_3' },
-      { id: 8, name: '广东早茶', category: '早点', desc: '一盅两件，精致生活。虾饺、烧麦、凤爪、蛋挞...推车叫卖声是清晨最美的旋律。吃早茶吃的不仅是味道，更是仪式感！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=cantonese%20dim%20sum%20har%20gaw%20shrimp%20dumplings%20food%20photography&image_size=landscape_4_3' },
-      { id: 9, name: '四川冒菜', category: '小吃', desc: '一个人的火锅，冒菜！各种蔬菜丸子泡在红油汤底里，麻酱蒜泥香菜标配，越吃越上头，根本停不下来！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=sichuan%20maocai%20spicy%20vegetables%20meat%20in%20red%20oil%20soup%20food%20photography&image_size=landscape_4_3' },
-      { id: 10, name: '山东煎饼', category: '早点', desc: '绿叶棚下的烟火气，纯杂粮面糊摊成薄饼，鸡蛋薄脆是灵魂，甜面酱辣条葱花香菜自由搭配，便宜大碗顶饿一上午！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=shandong%20jianbing%20chinese%20crepe%20pancake%20with%20egg%20food%20photography&image_size=landscape_4_3' },
-      { id: 11, name: '广东潮汕牛肉火锅', category: '夜宵', desc: '现切牛肉，部位繁多。匙柄、五花趾、吊龙...涮8秒即食，蘸上沙茶酱，鲜嫩到飞起。吃完感觉灵魂都被涮了一遍！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=chaoshan%20beef%20hotpot%20with%20fresh%20beef%20slices%20chinese%20hotpot%20food%20photography&image_size=landscape_4_3' },
-      { id: 12, name: '云南过桥米线', category: '面条', desc: '仪式感满分的米线，土鸡熬制的高汤滚烫倒入，依次放入配菜和米线，温度刚好煨熟每一根米线。鲜美无比！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=yunnan%20crossing%20bridge%20rice%20noodles%20soup%20with%20fresh%20ingredients%20food%20photography&image_size=landscape_4_3' }
+      { id: 1, name: '老北京炸酱面', category: '面条', desc: '校门口王大爷的拿手绝活，手工擀面配上秘制肉酱，黄瓜丝萝卜丝铺满碗，一口下去满嘴留香，同学们排队也要吃！', img: 'https://images.unsplash.com/photo-1555123236-7605f5e8e364?w=400&h=300&fit=crop' },
+      { id: 2, name: '重庆小面', category: '面条', desc: '后街小巷里的宝藏面馆，红油辣子配上花生碎，麻辣鲜香层次分明。微辣是最后的妥协，吃完额头冒汗直呼过瘾！', img: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=300&fit=crop' },
+      { id: 3, name: '广式肠粉', category: '早点', desc: '早餐界的温柔担当，薄如蝉翼的米皮裹着鲜虾牛肉，淋上甜酱油，入口滑嫩鲜美。早八人的续命神器，吃完元气满满！', img: 'https://images.unsplash.com/photo-1547592166-23ac55094b6d?w=400&h=300&fit=crop' },
+      { id: 4, name: '西安肉夹馍', category: '小吃', desc: '白吉馍外酥里嫩，腊汁肉肥而不腻，一口咬下肉汁四溢。老板说这是"中式汉堡"，但比汉堡好吃一百倍！', img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop' },
+      { id: 5, name: '长沙臭豆腐', category: '小吃', desc: '闻着臭吃着香的典范，外焦里嫩的黑豆腐配上辣椒萝卜丁，浇上秘制汤汁。第一次吃是挑战，第二次吃是上瘾！', img: 'https://images.unsplash.com/photo-1571091717498-4191e4493940?w=400&h=300&fit=crop' },
+      { id: 6, name: '台湾蚵仔煎', category: '夜宵', desc: '夜市人气王，新鲜牡蛎配上鸡蛋地瓜粉，煎得外酥内软，淋上甜辣酱。海的味道、夜市的热闹，全在这口小吃里！', img: 'https://images.unsplash.com/photo-1547592166-eac426403336?w=400&h=300&fit=crop' },
+      { id: 7, name: '武汉热干面', category: '面条', desc: '芝麻酱爱好者的天堂，面条筋道有嚼劲，淋上香浓芝麻酱和辣油，拌一拌，香气扑鼻。这是武汉人过早的灵魂！', img: 'https://images.unsplash.com/photo-1555123236-7605f5e8e364?w=400&h=300&fit=crop' },
+      { id: 8, name: '广东早茶', category: '早点', desc: '一盅两件，精致生活。虾饺、烧麦、凤爪、蛋挞...推车叫卖声是清晨最美的旋律。吃早茶吃的不仅是味道，更是仪式感！', img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=300&fit=crop' },
+      { id: 9, name: '四川冒菜', category: '小吃', desc: '一个人的火锅，冒菜！各种蔬菜丸子泡在红油汤底里，麻酱蒜泥香菜标配，越吃越上头，根本停不下来！', img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=300&fit=crop' },
+      { id: 10, name: '山东煎饼', category: '早点', desc: '绿叶棚下的烟火气，纯杂粮面糊摊成薄饼，鸡蛋薄脆是灵魂，甜面酱辣条葱花香菜自由搭配，便宜大碗顶饿一上午！', img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop' },
+      { id: 11, name: '广东潮汕牛肉火锅', category: '夜宵', desc: '现切牛肉，部位繁多。匙柄、五花趾、吊龙...涮8秒即食，蘸上沙茶酱，鲜嫩到飞起。吃完感觉灵魂都被涮了一遍！', img: 'https://images.unsplash.com/photo-1547592166-eac426403336?w=400&h=300&fit=crop' },
+      { id: 12, name: '云南过桥米线', category: '面条', desc: '仪式感满分的米线，土鸡熬制的高汤滚烫倒入，依次放入配菜和米线，温度刚好煨熟每一根米线。鲜美无比！', img: 'https://images.unsplash.com/photo-1547592166-23ac55094b6d?w=400&h=300&fit=crop' }
     ];
 
     let currentLightboxIndex = 0;
