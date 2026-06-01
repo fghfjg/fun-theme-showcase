@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>班级美食地图 - 趣味主题展示站</title>
+  <title>班级美食地图</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -24,15 +24,15 @@
     }
   </script>
   <style>
-    .hero-gradient {
-      background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
-    }
     .card-hover {
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     .card-hover:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.1);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    .hero-gradient {
+      background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
     }
     .scroll-progress {
       position: fixed;
@@ -49,8 +49,9 @@
       right: 30px;
       width: 50px;
       height: 50px;
-      background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
       border-radius: 50%;
+      background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+      color: white;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -58,16 +59,16 @@
       opacity: 0;
       visibility: hidden;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
       z-index: 1000;
+      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
     }
-    .back-to-top.visible {
+    .back-to-top.show {
       opacity: 1;
       visibility: visible;
     }
     .back-to-top:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5);
     }
     .lightbox-overlay {
       position: fixed;
@@ -76,35 +77,39 @@
       width: 100%;
       height: 100%;
       background: rgba(0, 0, 0, 0.9);
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: center;
       z-index: 10000;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
+      cursor: pointer;
     }
-    .lightbox-overlay.visible {
-      opacity: 1;
-      visibility: visible;
+    .lightbox-overlay.active {
+      display: flex;
     }
     .lightbox-content {
       max-width: 90vw;
       max-height: 90vh;
-      position: relative;
-    }
-    .lightbox-content img {
-      max-width: 100%;
-      max-height: 85vh;
       border-radius: 12px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     }
-    .lightbox-caption {
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
       color: white;
-      text-align: center;
-      margin-top: 15px;
-      font-size: 18px;
-      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .lightbox-close:hover {
+      background: rgba(255, 255, 255, 0.3);
     }
     .lightbox-nav {
       position: absolute;
@@ -112,207 +117,203 @@
       transform: translateY(-50%);
       width: 50px;
       height: 50px;
-      background: rgba(255, 255, 255, 0.2);
-      border: none;
       border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
       color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 24px;
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition: all 0.3s ease;
     }
     .lightbox-nav:hover {
       background: rgba(255, 255, 255, 0.3);
     }
-    .lightbox-prev { left: 20px; }
-    .lightbox-next { right: 20px; }
-    .lightbox-close {
-      position: absolute;
-      top: 20px;
+    .lightbox-prev {
+      left: 20px;
+    }
+    .lightbox-next {
       right: 20px;
-      width: 40px;
-      height: 40px;
-      background: rgba(255, 255, 255, 0.2);
-      border: none;
-      border-radius: 50%;
-      color: white;
-      font-size: 20px;
-      cursor: pointer;
-    }
-    .like-btn.liked {
-      color: #FF6B6B;
-    }
-    .like-btn.liked svg {
-      fill: #FF6B6B;
-    }
-    .star-rating .star {
-      cursor: pointer;
-      transition: color 0.2s ease, transform 0.2s ease;
-    }
-    .star-rating .star:hover {
-      transform: scale(1.2);
-    }
-    .star-rating .star.active {
-      color: #FFE66D;
-    }
-    .category-btn.active {
-      background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
-      color: white;
-    }
-    .fade-in {
-      animation: fadeIn 0.5s ease forwards;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .comment-item {
-      animation: slideIn 0.3s ease;
-    }
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateX(-20px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    img[lazy] {
-      opacity: 0;
-      transition: opacity 0.5s ease;
-    }
-    img[lazy].loaded {
-      opacity: 1;
     }
     .share-toast {
       position: fixed;
       bottom: 100px;
       left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: #2C3E50;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
       color: white;
       padding: 12px 24px;
-      border-radius: 25px;
-      font-size: 14px;
+      border-radius: 8px;
       opacity: 0;
+      visibility: hidden;
       transition: all 0.3s ease;
       z-index: 10001;
     }
     .share-toast.show {
       opacity: 1;
-      transform: translateX(-50%) translateY(0);
+      visibility: visible;
+    }
+    .star-rating {
+      display: flex;
+      gap: 4px;
+    }
+    .star {
+      font-size: 20px;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+    .star:hover,
+    .star.active {
+      color: #FFD700;
+    }
+    .like-btn {
+      transition: all 0.2s ease;
+    }
+    .like-btn.liked {
+      color: #FF6B6B;
+    }
+    .card-image {
+      object-fit: cover;
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
-<body class="bg-light font-sans">
+<body class="bg-light">
   <div class="scroll-progress" id="scrollProgress"></div>
-
+  
   <nav class="bg-white shadow-md sticky top-0 z-50">
-    <div class="container mx-auto px-4">
-      <div class="flex justify-between items-center py-4">
-        <a href="index.html" class="text-xl font-bold text-primary">🍜 班级美食地图</a>
-        <div class="flex items-center gap-6">
-          <a href="#foods" class="text-dark hover:text-primary transition-colors">美食列表</a>
-          <a href="#comments" class="text-dark hover:text-primary transition-colors">留言板</a>
-          <a href="resume.html" class="bg-gradient-to-r from-primary to-secondary text-white px-4 py-2 rounded-full hover:shadow-lg transition-all">关于站长</a>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center space-x-2">
+          <span class="text-2xl">🍜</span>
+          <span class="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">班级美食地图</span>
         </div>
+        <div class="hidden md:flex space-x-6">
+          <a href="#foods" class="text-dark hover:text-primary transition-colors">美食推荐</a>
+          <a href="#comments" class="text-dark hover:text-primary transition-colors">留言板</a>
+          <a href="resume.html" target="_blank" class="text-dark hover:text-primary transition-colors">个人简历</a>
+        </div>
+        <button class="md:hidden" id="mobileMenuBtn">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="md:hidden hidden" id="mobileMenu">
+      <div class="px-4 py-2 space-y-2">
+        <a href="#foods" class="block py-2 text-dark hover:text-primary">美食推荐</a>
+        <a href="#comments" class="block py-2 text-dark hover:text-primary">留言板</a>
+        <a href="resume.html" target="_blank" class="block py-2 text-dark hover:text-primary">个人简历</a>
       </div>
     </div>
   </nav>
 
-  <header class="hero-gradient text-white py-20 md:py-28 relative overflow-hidden">
-    <div class="absolute inset-0 opacity-10">
-      <div class="absolute top-10 right-20 text-8xl">🍜</div>
-      <div class="absolute bottom-10 left-20 text-8xl">🍲</div>
-      <div class="absolute top-1/2 left-1/4 text-6xl">🥟</div>
-      <div class="absolute top-1/3 right-1/4 text-6xl">🍤</div>
+  <section class="hero-gradient text-white py-16 md:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-3xl md:text-5xl font-bold mb-4">发现校园美食</h1>
+      <p class="text-lg md:text-xl opacity-90 mb-8">探索同学们最爱的美味，分享你的美食故事</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <span class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm">🍜 面条</span>
+        <span class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm">🥟 早点</span>
+        <span class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm">🍢 小吃</span>
+        <span class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm">🌙 夜宵</span>
+      </div>
     </div>
-    <div class="container mx-auto px-4 text-center relative z-10">
-      <h1 class="text-4xl md:text-6xl font-bold mb-6">发现校园周边的宝藏美食</h1>
-      <p class="text-lg md:text-xl opacity-90 max-w-2xl mx-auto">
-        每一道美食背后都有属于它的故事，让我们一起探索身边的美味
-      </p>
-    </div>
-  </header>
+  </section>
 
-  <main class="container mx-auto px-4 py-16">
-    <section id="foods" class="mb-16">
+  <section id="foods" class="py-12 md:py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10">
+        <h2 class="text-2xl md:text-3xl font-bold text-dark mb-3">美食推荐</h2>
+        <p class="text-gray-600">精选校园周边人气美食</p>
+      </div>
+      
       <div class="flex flex-wrap justify-center gap-3 mb-10">
-        <button class="category-btn active px-6 py-2 rounded-full bg-gradient-to-r from-primary to-secondary text-white font-medium hover:shadow-lg transition-all" onclick="filterFoods('all')">
-          全部
-        </button>
-        <button class="category-btn px-6 py-2 rounded-full bg-white text-dark font-medium hover:shadow-lg transition-all" onclick="filterFoods('面条')">
-          面条
-        </button>
-        <button class="category-btn px-6 py-2 rounded-full bg-white text-dark font-medium hover:shadow-lg transition-all" onclick="filterFoods('小吃')">
-          小吃
-        </button>
-        <button class="category-btn px-6 py-2 rounded-full bg-white text-dark font-medium hover:shadow-lg transition-all" onclick="filterFoods('早点')">
-          早点
-        </button>
-        <button class="category-btn px-6 py-2 rounded-full bg-white text-dark font-medium hover:shadow-lg transition-all" onclick="filterFoods('夜宵')">
-          夜宵
-        </button>
+        <button class="category-btn active px-4 py-2 rounded-full bg-primary text-white" data-category="all">全部</button>
+        <button class="category-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300" data-category="面条">面条</button>
+        <button class="category-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300" data-category="早点">早点</button>
+        <button class="category-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300" data-category="小吃">小吃</button>
+        <button class="category-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300" data-category="夜宵">夜宵</button>
       </div>
 
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="foodContainer">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="foodGrid">
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="comments" class="bg-white rounded-2xl shadow-lg p-8">
-      <h2 class="text-2xl font-bold text-dark mb-6 flex items-center gap-3">
-        <span class="text-3xl">💬</span>
-        留言板
-      </h2>
+  <section id="comments" class="py-12 md:py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10">
+        <h2 class="text-2xl md:text-3xl font-bold text-dark mb-3">美食留言板</h2>
+        <p class="text-gray-600">分享你的美食体验</p>
+      </div>
 
-      <div class="mb-8">
-        <input type="text" id="commentName" placeholder="您的昵称" class="w-full md:w-1/3 px-4 py-3 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all mb-4">
-        <textarea id="commentText" placeholder="分享您的美食心得..." rows="4" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"></textarea>
-        <button onclick="addComment()" class="mt-4 bg-gradient-to-r from-primary to-secondary text-white px-6 py-2 rounded-full font-medium hover:shadow-lg transition-all">
-          发表留言
-        </button>
+      <div class="bg-light rounded-xl p-6 mb-8">
+        <div class="flex flex-col md:flex-row gap-4">
+          <input type="text" id="commentName" placeholder="你的昵称" class="flex-1 px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:border-primary">
+          <input type="text" id="commentContent" placeholder="说说你最喜欢的美食..." class="flex-1 px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:border-primary">
+          <button id="submitComment" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">发送</button>
+        </div>
       </div>
 
       <div id="commentList" class="space-y-4">
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
 
-  <footer class="bg-dark text-white py-8 mt-10">
-    <div class="container mx-auto px-4 text-center">
-      <p class="text-sm opacity-80 mb-4">趣味主题展示站 | GitHub Pages 部署 | 2026</p>
-      <a href="resume.html" class="inline-flex items-center gap-2 text-primary hover:text-secondary transition-colors">
-        <span>👨‍💻</span>
-        <span>关于站长</span>
-      </a>
+  <footer class="bg-dark text-white py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="flex justify-center items-center space-x-2 mb-4">
+        <span class="text-2xl">🍜</span>
+        <span class="font-bold">班级美食地图</span>
+      </div>
+      <p class="text-gray-400 text-sm">© 2024 班级美食地图. 分享美食，分享快乐.</p>
     </div>
   </footer>
 
   <div class="back-to-top" id="backToTop">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+    </svg>
   </div>
 
   <div class="lightbox-overlay" id="lightbox">
-    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-    <button class="lightbox-nav lightbox-prev" onclick="prevImage()">‹</button>
-    <button class="lightbox-nav lightbox-next" onclick="nextImage()">›</button>
-    <div class="lightbox-content">
-      <img id="lightboxImage" src="" alt="">
-      <div class="lightbox-caption" id="lightboxCaption"></div>
-    </div>
+    <div class="lightbox-close" id="lightboxClose">×</div>
+    <div class="lightbox-nav lightbox-prev" id="lightboxPrev">‹</div>
+    <img class="lightbox-content" id="lightboxImage" src="" alt="">
+    <div class="lightbox-nav lightbox-next" id="lightboxNext">›</div>
   </div>
 
   <div class="share-toast" id="shareToast">链接已复制到剪贴板！</div>
 
   <script>
     const foods = [
-      { id: 1, name: '老北京炸酱面', category: '面条', desc: '校门口王大爷的拿手绝活，手工擀面配上秘制肉酱，黄瓜丝萝卜丝铺满碗，一口下去满嘴留香，同学们排队也要吃！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=traditional%20chinese%20zhajiang%20noodles%20with%20meat%20sauce%20and%20vegetables%20on%20top%20food%20photography&image_size=landscape_4_3' },
-      { id: 2, name: '重庆小面', category: '面条', desc: '后街小巷里的宝藏面馆，红油辣子配上花生碎，麻辣鲜香层次分明。微辣是最后的妥协，吃完额头冒汗直呼过瘾！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=chongqing%20spicy%20noodles%20with%20red%20chili%20oil%20and%20peanuts%20food%20photography&image_size=landscape_4_3' },
-      { id: 3, name: '广式肠粉', category: '早点', desc: '早餐界的温柔担当，薄如蝉翼的米皮裹着鲜虾牛肉，淋上甜酱油，入口滑嫩鲜美。早八人的续命神器，吃完元气满满！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=guangzhou%20steamed%20rice%20rolls%20changfen%20with%20shrimp%20and%20beef%20chinese%20breakfast%20food%20photography&image_size=landscape_4_3' },
-      { id: 4, name: '西安肉夹馍', category: '小吃', desc: '白吉馍外酥里嫩，腊汁肉肥而不腻，一口咬下肉汁四溢。老板说这是"中式汉堡"，但比汉堡好吃一百倍！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=xian%20roujiamo%20chinese%20hamburger%20with%20braised%20pork%20meat%20food%20photography&image_size=landscape_4_3' },
-      { id: 5, name: '长沙臭豆腐', category: '小吃', desc: '闻着臭吃着香的典范，外焦里嫩的黑豆腐配上辣椒萝卜丁，浇上秘制汤汁。第一次吃是挑战，第二次吃是上瘾！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=changsha%20stinky%20tofu%20fried%20black%20tofu%20with%20spicy%20sauce%20chinese%20street%20food%20photography&image_size=landscape_4_3' },
-      { id: 6, name: '台湾蚵仔煎', category: '夜宵', desc: '夜市人气王，新鲜牡蛎配上鸡蛋地瓜粉，煎得外酥内软，淋上甜辣酱。海的味道、夜市的热闹，全在这口小吃里！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=taiwanese%20oyster%20omelet%20fried%20oysters%20with%20egg%20and%20sweet%20sauce%20night%20market%20food%20photography&image_size=landscape_4_3' },
-      { id: 7, name: '武汉热干面', category: '面条', desc: '芝麻酱爱好者的天堂，面条筋道有嚼劲，淋上香浓芝麻酱和辣油，拌一拌，香气扑鼻。这是武汉人过早的灵魂！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=wuhan%20reganmian%20hot%20dry%20noodles%20with%20sesame%20paste%20and%20scallions%20food%20photography&image_size=landscape_4_3' },
-      { id: 8, name: '广东早茶', category: '早点', desc: '一盅两件，精致生活。虾饺、烧麦、凤爪、蛋挞...推车叫卖声是清晨最美的旋律。吃早茶吃的不仅是味道，更是仪式感！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=cantonese%20morning%20tea%20dim%20sum%20har%20gaw%20shrimp%20dumplings%20siu%20mai%20food%20photography&image_size=landscape_4_3' },
-      { id: 9, name: '四川冒菜', category: '小吃', desc: '一个人的火锅，冒菜！各种蔬菜丸子泡在红油汤底里，麻酱蒜泥香菜标配，越吃越上头，根本停不下来！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=sichuan%20maocai%20spicy%20vegetables%20and%20meat%20in%20red%20oil%20soup%20chinese%20food%20photography&image_size=landscape_4_3' },
-      { id: 10, name: '山东煎饼', category: '早点', desc: '绿叶棚下的烟火气，纯杂粮面糊摊成薄饼，鸡蛋薄脆是灵魂，甜面酱辣条葱花香菜自由搭配，便宜大碗顶饿一上午！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=shandong%20pancake%20jianbing%20with%20egg%20and%20vegetables%20chinese%20street%20food%20photography&image_size=landscape_4_3' },
-      { id: 11, name: '广东潮汕牛肉火锅', category: '夜宵', desc: '现切牛肉，部位繁多。匙柄、五花趾、吊龙...涮8秒即食，蘸上沙茶酱，鲜嫩到飞起。吃完感觉灵魂都被涮了一遍！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=chaoshan%20beef%20hotpot%20with%20fresh%20sliced%20beef%20chinese%20hot%20pot%20food%20photography&image_size=landscape_4_3' },
-      { id: 12, name: '云南过桥米线', category: '面条', desc: '仪式感满分的米线，土鸡熬制的高汤滚烫倒入，依次放入配菜和米线，温度刚好煨熟每一根米线。鲜美无比！', img: 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=yunnan%20crossing%20bridge%20rice%20noodles%20with%20soup%20and%20fresh%20ingredients%20food%20photography&image_size=landscape_4_3' }
+      { id: 1, name: '老北京炸酱面', category: '面条', desc: '校门口王大爷的拿手绝活，手工擀面配上秘制肉酱，黄瓜丝萝卜丝铺满碗，一口下去满嘴留香，同学们排队也要吃！', img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop' },
+      { id: 2, name: '重庆小面', category: '面条', desc: '后街小巷里的宝藏面馆，红油辣子配上花生碎，麻辣鲜香层次分明。微辣是最后的妥协，吃完额头冒汗直呼过瘾！', img: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=300&fit=crop' },
+      { id: 3, name: '广式肠粉', category: '早点', desc: '早餐界的温柔担当，薄如蝉翼的米皮裹着鲜虾牛肉，淋上甜酱油，入口滑嫩鲜美。早八人的续命神器，吃完元气满满！', img: 'https://images.unsplash.com/photo-1547592166-23ac55094b6d?w=400&h=300&fit=crop' },
+      { id: 4, name: '西安肉夹馍', category: '小吃', desc: '白吉馍外酥里嫩，腊汁肉肥而不腻，一口咬下肉汁四溢。老板说这是"中式汉堡"，但比汉堡好吃一百倍！', img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop' },
+      { id: 5, name: '长沙臭豆腐', category: '小吃', desc: '闻着臭吃着香的典范，外焦里嫩的黑豆腐配上辣椒萝卜丁，浇上秘制汤汁。第一次吃是挑战，第二次吃是上瘾！', img: 'https://images.unsplash.com/photo-1571091717498-4191e4493940?w=400&h=300&fit=crop' },
+      { id: 6, name: '台湾蚵仔煎', category: '夜宵', desc: '夜市人气王，新鲜牡蛎配上鸡蛋地瓜粉，煎得外酥内软，淋上甜辣酱。海的味道、夜市的热闹，全在这口小吃里！', img: 'https://images.unsplash.com/photo-1547592166-eac426403336?w=400&h=300&fit=crop' },
+      { id: 7, name: '武汉热干面', category: '面条', desc: '芝麻酱爱好者的天堂，面条筋道有嚼劲，淋上香浓芝麻酱和辣油，拌一拌，香气扑鼻。这是武汉人过早的灵魂！', img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop' },
+      { id: 8, name: '广东早茶', category: '早点', desc: '一盅两件，精致生活。虾饺、烧麦、凤爪、蛋挞...推车叫卖声是清晨最美的旋律。吃早茶吃的不仅是味道，更是仪式感！', img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=300&fit=crop' },
+      { id: 9, name: '四川冒菜', category: '小吃', desc: '一个人的火锅，冒菜！各种蔬菜丸子泡在红油汤底里，麻酱蒜泥香菜标配，越吃越上头，根本停不下来！', img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=300&fit=crop' },
+      { id: 10, name: '山东煎饼', category: '早点', desc: '绿叶棚下的烟火气，纯杂粮面糊摊成薄饼，鸡蛋薄脆是灵魂，甜面酱辣条葱花香菜自由搭配，便宜大碗顶饿一上午！', img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop' },
+      { id: 11, name: '广东潮汕牛肉火锅', category: '夜宵', desc: '现切牛肉，部位繁多。匙柄、五花趾、吊龙...涮8秒即食，蘸上沙茶酱，鲜嫩到飞起。吃完感觉灵魂都被涮了一遍！', img: 'https://images.unsplash.com/photo-1547592166-eac426403336?w=400&h=300&fit=crop' },
+      { id: 12, name: '云南过桥米线', category: '面条', desc: '仪式感满分的米线，土鸡熬制的高汤滚烫倒入，依次放入配菜和米线，温度刚好煨熟每一根米线。鲜美无比！', img: 'https://images.unsplash.com/photo-1547592166-23ac55094b6d?w=400&h=300&fit=crop' }
     ];
 
     let currentLightboxIndex = 0;
@@ -323,9 +324,7 @@
       return JSON.parse(localStorage.getItem('foodLikes') || '{}');
     }
 
-    function setLike(foodId, count) {
-      const likes = getLikes();
-      likes[foodId] = count;
+    function saveLikes(likes) {
       localStorage.setItem('foodLikes', JSON.stringify(likes));
     }
 
@@ -333,129 +332,135 @@
       return JSON.parse(localStorage.getItem('foodRatings') || '{}');
     }
 
-    function getFoodRating(foodId) {
-      const ratings = getRatings();
-      return ratings[foodId] || { total: 0, count: 0 };
-    }
-
-    function setFoodRating(foodId, rating) {
-      const ratings = getRatings();
-      if (!ratings[foodId]) {
-        ratings[foodId] = { total: 0, count: 0 };
-      }
-      ratings[foodId].total += rating;
-      ratings[foodId].count += 1;
+    function saveRatings(ratings) {
       localStorage.setItem('foodRatings', JSON.stringify(ratings));
     }
 
-    function getAverageRating(foodId) {
-      const rating = getFoodRating(foodId);
-      if (rating.count === 0) return 0;
-      return (rating.total / rating.count).toFixed(1);
+    function getComments() {
+      return JSON.parse(localStorage.getItem('foodComments') || '[]');
     }
 
-    function renderStars(rating, foodId) {
-      const avg = getAverageRating(foodId);
-      let stars = '';
-      for (let i = 1; i <= 5; i++) {
-        const filled = i <= Math.round(avg);
-        stars += `<span class="star ${filled ? 'active' : ''}" data-value="${i}" style="color: ${filled ? '#FFE66D' : '#ddd'}">★</span>`;
-      }
-      return stars + `<span class="text-sm text-gray-500 ml-1">(${avg})</span>`;
+    function saveComments(comments) {
+      localStorage.setItem('foodComments', JSON.stringify(comments));
     }
 
-    function createFoodCard(food, index) {
-      const likes = getLikes();
-      const likeCount = likes[food.id] || 0;
-      const isLiked = likeCount > 0;
-
-      return `
-        <article class="bg-white rounded-xl shadow-md overflow-hidden card-hover fade-in" data-category="${food.category}">
-          <div class="relative cursor-pointer" onclick="openLightbox(${index})">
-            <img lazy src="${food.img}" alt="${food.name}" class="w-full h-48 object-cover" data-index="${index}">
-            <span class="absolute top-3 left-3 bg-white/90 text-primary text-xs px-3 py-1 rounded-full font-medium">${food.category}</span>
+    function renderFoods(category = 'all') {
+      const grid = document.getElementById('foodGrid');
+      grid.innerHTML = '';
+      
+      const filteredFoods = category === 'all' ? foods : foods.filter(f => f.category === category);
+      
+      filteredFoods.forEach((food, index) => {
+        const likes = getLikes();
+        const ratings = getRatings();
+        const foodLikes = likes[food.id] || 0;
+        const foodRating = ratings[food.id] || 0;
+        
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-xl shadow-lg overflow-hidden card-hover animate-fade-in';
+        card.style.animationDelay = `${index * 0.1}s`;
+        card.innerHTML = `
+          <div class="relative h-48 cursor-pointer" onclick="openLightbox(${food.id})">
+            <img src="${food.img}" alt="${food.name}" class="w-full h-full card-image lazy" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity"></div>
+            <span class="absolute top-3 left-3 bg-primary text-white px-3 py-1 rounded-full text-xs">${food.category}</span>
+            <span class="absolute bottom-3 left-3 text-white font-medium opacity-0 hover:opacity-100 transition-opacity">点击查看大图</span>
           </div>
-          <div class="p-6">
-            <h3 class="text-xl font-bold text-dark mb-2">${food.name}</h3>
-            <p class="text-gray-600 leading-relaxed mb-4">${food.desc}</p>
+          <div class="p-4">
+            <h3 class="text-lg font-bold text-dark mb-2">${food.name}</h3>
+            <p class="text-gray-600 text-sm mb-3 line-clamp-2">${food.desc}</p>
             <div class="flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <button class="like-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike(${food.id})">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${isLiked ? '#FF6B6B' : '#ddd'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                </button>
-                <span class="text-sm text-gray-500">${likeCount}</span>
+              <div class="star-rating" data-food-id="${food.id}">
+                ${[1,2,3,4,5].map(star => `
+                  <span class="star ${star <= foodRating ? 'active' : ''}" data-rating="${star}">&#9733;</span>
+                `).join('')}
               </div>
-              <div class="star-rating flex items-center gap-1" data-food-id="${food.id}">
-                ${renderStars(null, food.id)}
-              </div>
-              <button class="share-btn text-gray-400 hover:text-primary transition-colors" onclick="shareFood(${index})">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+              <button class="like-btn flex items-center gap-1 text-gray-500 hover:text-primary transition-colors ${foodLikes > 0 ? 'liked' : ''}" data-food-id="${food.id}">
+                <span>${foodLikes > 0 ? '❤️' : '🤍'}</span>
+                <span>${foodLikes}</span>
               </button>
             </div>
+            <button class="share-btn mt-3 w-full py-2 border border-gray-200 rounded-lg text-gray-600 hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2" data-food-name="${food.name}">
+              <span>🔗</span>
+              <span>分享</span>
+            </button>
           </div>
-        </article>
-      `;
+        `;
+        grid.appendChild(card);
+      });
+      
+      lightboxImages = filteredFoods.map(f => ({ url: f.img, name: f.name }));
+      
+      bindEvents();
     }
 
-    function renderFoods() {
-      const container = document.getElementById('foodContainer');
-      const filteredFoods = currentCategory === 'all' ? foods : foods.filter(f => f.category === currentCategory);
-      lightboxImages = filteredFoods.map(f => ({ img: f.img, name: f.name }));
-      container.innerHTML = filteredFoods.map((food, index) => createFoodCard(food, index)).join('');
-      
-      document.querySelectorAll('.star-rating').forEach(el => {
-        el.addEventListener('click', function(e) {
+    function bindEvents() {
+      document.querySelectorAll('.like-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
           const foodId = parseInt(this.dataset.foodId);
-          const star = e.target;
-          if (star.classList.contains('star')) {
-            const rating = parseInt(star.dataset.value);
-            setFoodRating(foodId, rating);
-            this.innerHTML = renderStars(rating, foodId);
+          const likes = getLikes();
+          if (likes[foodId]) {
+            likes[foodId]++;
+          } else {
+            likes[foodId] = 1;
           }
+          saveLikes(likes);
+          this.classList.add('liked');
+          this.innerHTML = `<span>❤️</span><span>${likes[foodId]}</span>`;
         });
       });
 
-      lazyLoadImages();
+      document.querySelectorAll('.star-rating .star').forEach(star => {
+        star.addEventListener('click', function() {
+          const foodId = parseInt(this.parentElement.dataset.foodId);
+          const rating = parseInt(this.dataset.rating);
+          const ratings = getRatings();
+          ratings[foodId] = rating;
+          saveRatings(ratings);
+          
+          this.parentElement.querySelectorAll('.star').forEach((s, i) => {
+            s.classList.toggle('active', i < rating);
+          });
+        });
+      });
+
+      document.querySelectorAll('.share-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const foodName = this.dataset.foodName;
+          const shareText = `推荐美食：${foodName} - 来自班级美食地图`;
+          
+          if (navigator.share) {
+            navigator.share({
+              title: foodName,
+              text: shareText,
+              url: window.location.href
+            });
+          } else {
+            navigator.clipboard.writeText(`${shareText} ${window.location.href}`).then(() => {
+              showToast();
+            });
+          }
+        });
+      });
     }
 
-    function filterFoods(category) {
-      currentCategory = category;
-      document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
-      renderFoods();
-    }
-
-    function toggleLike(foodId) {
-      const likes = getLikes();
-      const currentCount = likes[foodId] || 0;
-      const newCount = currentCount > 0 ? 0 : 1;
-      setLike(foodId, newCount);
-      
-      const likeBtn = event.target.closest('.like-btn');
-      const countSpan = likeBtn.nextElementSibling;
-      if (newCount > 0) {
-        likeBtn.classList.add('liked');
-      } else {
-        likeBtn.classList.remove('liked');
+    function openLightbox(foodId) {
+      const food = foods.find(f => f.id === foodId);
+      if (food) {
+        currentLightboxIndex = lightboxImages.findIndex(img => img.url === food.img);
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+        lightboxImage.src = food.img;
+        lightboxImage.alt = food.name;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
       }
-      countSpan.textContent = newCount;
-    }
-
-    function openLightbox(index) {
-      currentLightboxIndex = index;
-      const lightbox = document.getElementById('lightbox');
-      const image = document.getElementById('lightboxImage');
-      const caption = document.getElementById('lightboxCaption');
-      
-      image.src = lightboxImages[index].img;
-      caption.textContent = lightboxImages[index].name;
-      lightbox.classList.add('visible');
-      document.body.style.overflow = 'hidden';
     }
 
     function closeLightbox() {
       const lightbox = document.getElementById('lightbox');
-      lightbox.classList.remove('visible');
+      lightbox.classList.remove('active');
       document.body.style.overflow = '';
     }
 
@@ -470,86 +475,9 @@
     }
 
     function updateLightbox() {
-      const image = document.getElementById('lightboxImage');
-      const caption = document.getElementById('lightboxCaption');
-      image.src = lightboxImages[currentLightboxIndex].img;
-      caption.textContent = lightboxImages[currentLightboxIndex].name;
-    }
-
-    document.addEventListener('keydown', function(e) {
-      const lightbox = document.getElementById('lightbox');
-      if (!lightbox.classList.contains('visible')) return;
-      
-      if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowLeft') prevImage();
-      if (e.key === 'ArrowRight') nextImage();
-    });
-
-    let touchStartX = 0;
-    let touchEndX = 0;
-    
-    document.getElementById('lightbox').addEventListener('touchstart', function(e) {
-      touchStartX = e.changedTouches[0].screenX;
-    });
-    
-    document.getElementById('lightbox').addEventListener('touchend', function(e) {
-      touchEndX = e.changedTouches[0].screenX;
-      const diff = touchStartX - touchEndX;
-      if (Math.abs(diff) > 50) {
-        if (diff > 0) {
-          nextImage();
-        } else {
-          prevImage();
-        }
-      }
-    });
-
-    function lazyLoadImages() {
-      const lazyImages = document.querySelectorAll('img[lazy]');
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const img = entry.target;
-            img.src = img.getAttribute('src');
-            img.classList.add('loaded');
-            observer.unobserve(img);
-          }
-        });
-      }, { threshold: 0.1 });
-      
-      lazyImages.forEach(img => observer.observe(img));
-    }
-
-    function shareFood(index) {
-      const food = lightboxImages[index] || foods[index];
-      const shareUrl = window.location.href;
-      const shareText = `快来看看「${food.name}」！${shareUrl}`;
-      
-      if (navigator.share) {
-        navigator.share({
-          title: food.name,
-          text: shareText,
-          url: shareUrl
-        }).catch(() => {
-          copyToClipboard(shareUrl);
-        });
-      } else {
-        copyToClipboard(shareUrl);
-      }
-    }
-
-    function copyToClipboard(text) {
-      navigator.clipboard.writeText(text).then(() => {
-        showToast();
-      }).catch(() => {
-        const textarea = document.createElement('textarea');
-        textarea.value = text;
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textarea);
-        showToast();
-      });
+      const lightboxImage = document.getElementById('lightboxImage');
+      lightboxImage.src = lightboxImages[currentLightboxIndex].url;
+      lightboxImage.alt = lightboxImages[currentLightboxIndex].name;
     }
 
     function showToast() {
@@ -558,95 +486,120 @@
       setTimeout(() => toast.classList.remove('show'), 2000);
     }
 
-    function getComments() {
-      return JSON.parse(localStorage.getItem('comments') || '[]');
-    }
-
-    function setComments(comments) {
-      localStorage.setItem('comments', JSON.stringify(comments));
-    }
-
-    function addComment() {
-      const name = document.getElementById('commentName').value.trim();
-      const text = document.getElementById('commentText').value.trim();
+    function renderComments() {
+      const commentList = document.getElementById('commentList');
+      const comments = getComments();
       
-      if (!name || !text) {
+      if (comments.length === 0) {
+        commentList.innerHTML = '<p class="text-center text-gray-400 py-8">暂无留言，快来发表第一条吧！</p>';
+        return;
+      }
+      
+      commentList.innerHTML = comments.map((comment, index) => `
+        <div class="bg-light rounded-xl p-4 animate-fade-in" style="animation-delay: ${index * 0.05}s">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center text-white text-sm font-bold">${comment.name.charAt(0)}</div>
+            <span class="font-medium text-dark">${comment.name}</span>
+            <span class="text-gray-400 text-xs">${comment.time}</span>
+          </div>
+          <p class="text-gray-600">${comment.content}</p>
+        </div>
+      `).join('');
+    }
+
+    function submitComment() {
+      const name = document.getElementById('commentName').value.trim();
+      const content = document.getElementById('commentContent').value.trim();
+      
+      if (!name || !content) {
         alert('请填写昵称和留言内容');
         return;
       }
       
       const comments = getComments();
-      comments.unshift({
+      comments.push({
         id: Date.now(),
         name: name,
-        text: text,
+        content: content,
         time: new Date().toLocaleString('zh-CN')
       });
-      
-      if (comments.length > 10) {
-        comments.pop();
-      }
-      
-      setComments(comments);
-      renderComments();
+      saveComments(comments);
       
       document.getElementById('commentName').value = '';
-      document.getElementById('commentText').value = '';
+      document.getElementById('commentContent').value = '';
+      renderComments();
     }
-
-    function renderComments() {
-      const comments = getComments();
-      const container = document.getElementById('commentList');
-      
-      if (comments.length === 0) {
-        container.innerHTML = '<p class="text-gray-500 text-center py-8">还没有留言，快来分享你的美食心得吧！</p>';
-        return;
-      }
-      
-      container.innerHTML = comments.map(comment => `
-        <div class="comment-item p-4 bg-light rounded-xl">
-          <div class="flex items-center gap-3 mb-2">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-semibold">
-              ${comment.name.charAt(0)}
-            </div>
-            <div>
-              <span class="font-medium text-dark">${comment.name}</span>
-              <span class="text-sm text-gray-400 ml-3">${comment.time}</span>
-            </div>
-          </div>
-          <p class="text-gray-600">${comment.text}</p>
-        </div>
-      `).join('');
-    }
-
-    window.addEventListener('scroll', () => {
-      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-      const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const progress = (scrollTop / scrollHeight) * 100;
-      document.getElementById('scrollProgress').style.width = progress + '%';
-      
-      const backToTop = document.getElementById('backToTop');
-      if (scrollTop > 500) {
-        backToTop.classList.add('visible');
-      } else {
-        backToTop.classList.remove('visible');
-      }
-    });
-
-    document.getElementById('backToTop').addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    document.getElementById('lightbox').addEventListener('click', function(e) {
-      if (e.target === this) {
-        closeLightbox();
-      }
-    });
 
     document.addEventListener('DOMContentLoaded', () => {
       renderFoods();
       renderComments();
+
+      document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active', 'bg-primary', 'text-white'));
+          document.querySelectorAll('.category-btn').forEach(b => b.classList.add('bg-gray-200', 'text-gray-700'));
+          this.classList.add('active', 'bg-primary', 'text-white');
+          this.classList.remove('bg-gray-200', 'text-gray-700');
+          currentCategory = this.dataset.category;
+          renderFoods(currentCategory);
+        });
+      });
+
+      document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+        document.getElementById('mobileMenu').classList.toggle('hidden');
+      });
+
+      document.getElementById('submitComment').addEventListener('click', submitComment);
+
+      document.getElementById('commentContent').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          submitComment();
+        }
+      });
+
+      document.getElementById('lightbox').addEventListener('click', (e) => {
+        if (e.target === document.getElementById('lightbox')) {
+          closeLightbox();
+        }
+      });
+
+      document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+      document.getElementById('lightboxPrev').addEventListener('click', (e) => {
+        e.stopPropagation();
+        prevImage();
+      });
+      document.getElementById('lightboxNext').addEventListener('click', (e) => {
+        e.stopPropagation();
+        nextImage();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (document.getElementById('lightbox').classList.contains('active')) {
+          if (e.key === 'Escape') closeLightbox();
+          if (e.key === 'ArrowLeft') prevImage();
+          if (e.key === 'ArrowRight') nextImage();
+        }
+      });
+
+      const backToTop = document.getElementById('backToTop');
+      const scrollProgress = document.getElementById('scrollProgress');
+
+      window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = (scrollTop / docHeight) * 100;
+        scrollProgress.style.width = `${scrollPercent}%`;
+        
+        if (scrollTop > 300) {
+          backToTop.classList.add('show');
+        } else {
+          backToTop.classList.remove('show');
+        }
+      });
+
+      backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
     });
   </script>
-</body>
 </html>
