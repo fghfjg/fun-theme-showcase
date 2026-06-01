@@ -49,9 +49,8 @@
       right: 30px;
       width: 50px;
       height: 50px;
-      border-radius: 50%;
       background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
-      color: white;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -59,57 +58,41 @@
       opacity: 0;
       visibility: hidden;
       transition: all 0.3s ease;
-      z-index: 1000;
       box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+      z-index: 1000;
     }
-    .back-to-top.show {
+    .back-to-top.visible {
       opacity: 1;
       visibility: visible;
     }
     .back-to-top:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5);
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);
     }
-    .lightbox-overlay {
+    .lightbox {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       background: rgba(0, 0, 0, 0.9);
-      display: none;
+      display: flex;
       align-items: center;
       justify-content: center;
       z-index: 10000;
-      cursor: pointer;
-    }
-    .lightbox-overlay.active {
-      display: flex;
-    }
-    .lightbox-content {
-      max-width: 90vw;
-      max-height: 90vh;
-      border-radius: 12px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    }
-    .lightbox-close {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
       transition: all 0.3s ease;
     }
-    .lightbox-close:hover {
-      background: rgba(255, 255, 255, 0.3);
+    .lightbox.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      border-radius: 8px;
     }
     .lightbox-nav {
       position: absolute;
@@ -117,185 +100,188 @@
       transform: translateY(-50%);
       width: 50px;
       height: 50px;
-      border-radius: 50%;
       background: rgba(255, 255, 255, 0.2);
+      border: none;
+      border-radius: 50%;
       color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       font-size: 24px;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: background 0.3s ease;
     }
     .lightbox-nav:hover {
       background: rgba(255, 255, 255, 0.3);
     }
-    .lightbox-prev {
-      left: 20px;
-    }
-    .lightbox-next {
+    .lightbox-prev { left: 20px; }
+    .lightbox-next { right: 20px; }
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
       right: 20px;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .like-btn.liked {
+      color: #FF6B6B;
+    }
+    .like-btn.liked svg {
+      fill: #FF6B6B;
+    }
+    .star-rating .star {
+      cursor: pointer;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+    .star-rating .star:hover {
+      transform: scale(1.2);
+    }
+    .star-rating .star.active {
+      color: #FFE66D;
+    }
+    .category-btn.active {
+      background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+      color: white;
+    }
+    .fade-in {
+      animation: fadeIn 0.5s ease forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .comment-item {
+      animation: slideIn 0.3s ease;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    img[lazy] {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    img[lazy].loaded {
+      opacity: 1;
     }
     .share-toast {
       position: fixed;
       bottom: 100px;
       left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.8);
+      transform: translateX(-50%) translateY(100px);
+      background: #2C3E50;
       color: white;
       padding: 12px 24px;
-      border-radius: 8px;
+      border-radius: 25px;
+      font-size: 14px;
       opacity: 0;
-      visibility: hidden;
       transition: all 0.3s ease;
       z-index: 10001;
     }
     .share-toast.show {
       opacity: 1;
-      visibility: visible;
-    }
-    .star-rating {
-      display: flex;
-      gap: 4px;
-    }
-    .star {
-      font-size: 20px;
-      cursor: pointer;
-      transition: color 0.2s ease;
-    }
-    .star:hover,
-    .star.active {
-      color: #FFD700;
-    }
-    .like-btn {
-      transition: all 0.2s ease;
-    }
-    .like-btn.liked {
-      color: #FF6B6B;
-    }
-    .card-image {
-      object-fit: cover;
-    }
-    .animate-fade-in {
-      animation: fadeIn 0.5s ease-in-out;
-    }
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      transform: translateX(-50%) translateY(0);
     }
   </style>
 </head>
-<body class="bg-light">
+<body class="bg-light font-sans">
   <div class="scroll-progress" id="scrollProgress"></div>
-  
+
   <nav class="bg-white shadow-md sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        <div class="flex items-center space-x-2">
-          <span class="text-2xl">🍜</span>
-          <span class="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">班级美食地图</span>
-        </div>
-        <div class="hidden md:flex space-x-6">
-          <a href="#foods" class="text-dark hover:text-primary transition-colors">美食推荐</a>
+    <div class="container mx-auto px-4">
+      <div class="flex justify-between items-center py-4">
+        <a href="index.html" class="text-xl font-bold text-primary">🍜 班级美食地图</a>
+        <div class="flex items-center gap-6">
+          <a href="#foods" class="text-dark hover:text-primary transition-colors">美食列表</a>
           <a href="#comments" class="text-dark hover:text-primary transition-colors">留言板</a>
-          <a href="resume.html" target="_blank" class="text-dark hover:text-primary transition-colors">个人简历</a>
+          <a href="resume.html" class="bg-gradient-to-r from-primary to-secondary text-white px-4 py-2 rounded-full hover:shadow-lg transition-all">关于站长</a>
         </div>
-        <button class="md:hidden" id="mobileMenuBtn">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-        </button>
-      </div>
-    </div>
-    <div class="md:hidden hidden" id="mobileMenu">
-      <div class="px-4 py-2 space-y-2">
-        <a href="#foods" class="block py-2 text-dark hover:text-primary">美食推荐</a>
-        <a href="#comments" class="block py-2 text-dark hover:text-primary">留言板</a>
-        <a href="resume.html" target="_blank" class="block py-2 text-dark hover:text-primary">个人简历</a>
       </div>
     </div>
   </nav>
 
-  <section class="hero-gradient text-white py-16 md:py-24">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h1 class="text-3xl md:text-5xl font-bold mb-4">发现校园美食</h1>
-      <p class="text-lg md:text-xl opacity-90 mb-8">探索同学们最爱的美味，分享你的美食故事</p>
-      <div class="flex flex-wrap justify-center gap-4">
-        <span class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm">🍜 面条</span>
-        <span class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm">🥟 早点</span>
-        <span class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm">🍢 小吃</span>
-        <span class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm">🌙 夜宵</span>
-      </div>
+  <header class="hero-gradient text-white py-20 md:py-28 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-10 left-10 text-8xl">🍜</div>
+      <div class="absolute bottom-10 right-10 text-8xl">🍔</div>
+      <div class="absolute top-1/2 left-1/4 text-6xl">🍕</div>
     </div>
-  </section>
+    <div class="container mx-auto px-4 text-center relative z-10">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4">班级美食地图</h1>
+      <p class="text-lg md:text-xl opacity-90 mb-6">发现身边美味 · 分享舌尖故事</p>
+      <button id="shareBtn" class="bg-white text-primary px-6 py-3 rounded-full font-semibold hover:shadow-lg transition-all flex items-center gap-2 mx-auto">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        分享给朋友
+      </button>
+    </div>
+  </header>
 
-  <section id="foods" class="py-12 md:py-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-10">
-        <h2 class="text-2xl md:text-3xl font-bold text-dark mb-3">美食推荐</h2>
-        <p class="text-gray-600">精选校园周边人气美食</p>
+  <main class="container mx-auto px-4 py-16">
+    <section id="foods">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-dark mb-4">美食列表</h2>
+        <p class="text-gray-600">发现校园周边的宝藏美食</p>
       </div>
-      
+
       <div class="flex flex-wrap justify-center gap-3 mb-10">
-        <button class="category-btn active px-4 py-2 rounded-full bg-primary text-white" data-category="all">全部</button>
-        <button class="category-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300" data-category="面条">面条</button>
-        <button class="category-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300" data-category="早点">早点</button>
-        <button class="category-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300" data-category="小吃">小吃</button>
-        <button class="category-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300" data-category="夜宵">夜宵</button>
+        <button class="category-btn active px-5 py-2 rounded-full border-2 border-primary text-primary font-medium transition-all hover:shadow-md" data-category="all">全部</button>
+        <button class="category-btn px-5 py-2 rounded-full border-2 border-secondary text-secondary font-medium transition-all hover:shadow-md" data-category="面条">面条</button>
+        <button class="category-btn px-5 py-2 rounded-full border-2 border-secondary text-secondary font-medium transition-all hover:shadow-md" data-category="小吃">小吃</button>
+        <button class="category-btn px-5 py-2 rounded-full border-2 border-secondary text-secondary font-medium transition-all hover:shadow-md" data-category="早点">早点</button>
+        <button class="category-btn px-5 py-2 rounded-full border-2 border-secondary text-secondary font-medium transition-all hover:shadow-md" data-category="夜宵">夜宵</button>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="foodGrid">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="foodGrid">
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="comments" class="py-12 md:py-16 bg-white">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-10">
-        <h2 class="text-2xl md:text-3xl font-bold text-dark mb-3">美食留言板</h2>
-        <p class="text-gray-600">分享你的美食体验</p>
+    <section id="comments" class="mt-20">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-dark mb-4">留言板</h2>
+        <p class="text-gray-600">写下你的美食心得或想说的话</p>
       </div>
 
-      <div class="bg-light rounded-xl p-6 mb-8">
-        <div class="flex flex-col md:flex-row gap-4">
-          <input type="text" id="commentName" placeholder="你的昵称" class="flex-1 px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:border-primary">
-          <input type="text" id="commentContent" placeholder="说说你最喜欢的美食..." class="flex-1 px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:border-primary">
-          <button id="submitComment" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">发送</button>
+      <div class="max-w-2xl mx-auto">
+        <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+          <form id="commentForm" class="space-y-4">
+            <div>
+              <input type="text" id="nicknameInput" placeholder="请输入昵称" maxlength="20" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+            </div>
+            <div>
+              <textarea id="commentInput" placeholder="说点什么吧..." rows="4" maxlength="500" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"></textarea>
+            </div>
+            <button type="submit" class="w-full bg-gradient-to-r from-primary to-secondary text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">发布留言</button>
+          </form>
+        </div>
+
+        <div id="commentsList" class="space-y-4">
         </div>
       </div>
-
-      <div id="commentList" class="space-y-4">
-      </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <footer class="bg-dark text-white py-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <div class="flex justify-center items-center space-x-2 mb-4">
-        <span class="text-2xl">🍜</span>
-        <span class="font-bold">班级美食地图</span>
-      </div>
-      <p class="text-gray-400 text-sm">© 2024 班级美食地图. 分享美食，分享快乐.</p>
+    <div class="container mx-auto px-4 text-center">
+      <p class="text-sm opacity-80 mb-4">趣味主题展示站 | GitHub Pages 部署 | 2026</p>
+      <a href="resume.html" class="inline-flex items-center gap-2 text-primary hover:text-secondary transition-colors">
+        <span>👨‍💻</span>
+        <span>关于站长</span>
+      </a>
     </div>
   </footer>
 
   <div class="back-to-top" id="backToTop">
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
-    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
   </div>
 
-  <div class="lightbox-overlay" id="lightbox">
-    <div class="lightbox-close" id="lightboxClose">×</div>
-    <div class="lightbox-nav lightbox-prev" id="lightboxPrev">‹</div>
-    <img class="lightbox-content" id="lightboxImage" src="" alt="">
-    <div class="lightbox-nav lightbox-next" id="lightboxNext">›</div>
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose">✕</button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev">❮</button>
+    <button class="lightbox-nav lightbox-next" id="lightboxNext">❯</button>
+    <img src="" alt="" id="lightboxImg">
   </div>
 
   <div class="share-toast" id="shareToast">链接已复制到剪贴板！</div>
@@ -324,7 +310,9 @@
       return JSON.parse(localStorage.getItem('foodLikes') || '{}');
     }
 
-    function saveLikes(likes) {
+    function setLike(foodId, count) {
+      const likes = getLikes();
+      likes[foodId] = count;
       localStorage.setItem('foodLikes', JSON.stringify(likes));
     }
 
@@ -332,274 +320,310 @@
       return JSON.parse(localStorage.getItem('foodRatings') || '{}');
     }
 
-    function saveRatings(ratings) {
+    function getFoodRating(foodId) {
+      const ratings = getRatings();
+      return ratings[foodId] || { total: 0, count: 0 };
+    }
+
+    function setFoodRating(foodId, rating) {
+      const ratings = getRatings();
+      if (!ratings[foodId]) {
+        ratings[foodId] = { total: 0, count: 0 };
+      }
+      ratings[foodId].total += rating;
+      ratings[foodId].count += 1;
       localStorage.setItem('foodRatings', JSON.stringify(ratings));
+    }
+
+    function getAverageRating(foodId) {
+      const rating = getFoodRating(foodId);
+      if (rating.count === 0) return 0;
+      return (rating.total / rating.count).toFixed(1);
+    }
+
+    function renderStars(rating, foodId) {
+      const avg = getAverageRating(foodId);
+      let stars = '';
+      for (let i = 1; i <= 5; i++) {
+        const filled = i <= Math.round(avg);
+        stars += `<span class="star ${filled ? 'active' : ''}" data-value="${i}" style="color: ${filled ? '#FFE66D' : '#ddd'};">★</span>`;
+      }
+      return stars + `<span class="text-sm text-gray-500 ml-1">(${avg})</span>`;
+    }
+
+    function createFoodCard(food, index) {
+      const likes = getLikes();
+      const likeCount = likes[food.id] || 0;
+      const isLiked = likeCount > 0;
+
+      return `
+        <article class="bg-white rounded-xl shadow-md overflow-hidden card-hover fade-in" data-category="${food.category}">
+          <div class="relative cursor-pointer" onclick="openLightbox(${index})">
+            <img lazy src="${food.img}" alt="${food.name}" class="w-full h-48 object-cover" data-index="${index}">
+            <span class="absolute top-3 left-3 bg-white/90 text-primary text-xs px-3 py-1 rounded-full font-medium">${food.category}</span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-dark mb-2">${food.name}</h3>
+            <p class="text-gray-600 leading-relaxed mb-4">${food.desc}</p>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <button class="like-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike(${food.id})">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="${isLiked ? '#FF6B6B' : 'none'}" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                </button>
+                <span class="text-gray-600 like-count">${likeCount}</span>
+              </div>
+              <div class="star-rating" onclick="event.stopPropagation()">
+                ${renderStars(getAverageRating(food.id), food.id)}
+              </div>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderFoods() {
+      const grid = document.getElementById('foodGrid');
+      const filteredFoods = currentCategory === 'all' 
+        ? foods 
+        : foods.filter(f => f.category === currentCategory);
+      
+      grid.innerHTML = filteredFoods.map((food, index) => createFoodCard(food, foods.indexOf(food))).join('');
+      
+      lightboxImages = foods.map(f => ({ src: f.img.replace('400/300', '800/600'), name: f.name }));
+      
+      observeLazyImages();
+    }
+
+    function toggleLike(foodId) {
+      const likes = getLikes();
+      const currentCount = likes[foodId] || 0;
+      const newCount = currentCount > 0 ? 0 : 1;
+      setLike(foodId, newCount);
+      renderFoods();
+    }
+
+    function handleStarClick(foodId, value) {
+      setFoodRating(foodId, value);
+      renderFoods();
+    }
+
+    document.querySelectorAll('.category-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCategory = btn.dataset.category;
+        renderFoods();
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('star')) {
+        const card = e.target.closest('article');
+        if (card) {
+          const index = parseInt(card.querySelector('img').dataset.index);
+          handleStarClick(foods[index].id, parseInt(e.target.dataset.value));
+        }
+      }
+    });
+
+    function openLightbox(index) {
+      currentLightboxIndex = index;
+      const lightbox = document.getElementById('lightbox');
+      const img = document.getElementById('lightboxImg');
+      img.src = lightboxImages[index].src;
+      img.alt = lightboxImages[index].name;
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function navigateLightbox(direction) {
+      currentLightboxIndex = (currentLightboxIndex + direction + lightboxImages.length) % lightboxImages.length;
+      document.getElementById('lightboxImg').src = lightboxImages[currentLightboxIndex].src;
+      document.getElementById('lightboxImg').alt = lightboxImages[currentLightboxIndex].name;
+    }
+
+    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+    document.getElementById('lightboxPrev').addEventListener('click', () => navigateLightbox(-1));
+    document.getElementById('lightboxNext').addEventListener('click', () => navigateLightbox(1));
+
+    document.getElementById('lightbox').addEventListener('click', (e) => {
+      if (e.target.id === 'lightbox') closeLightbox();
+    });
+
+    let touchStartX = 0;
+    document.getElementById('lightbox').addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+    });
+    document.getElementById('lightbox').addEventListener('touchend', (e) => {
+      const touchEndX = e.changedTouches[0].clientX;
+      const diff = touchStartX - touchEndX;
+      if (Math.abs(diff) > 50) {
+        navigateLightbox(diff > 0 ? 1 : -1);
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!document.getElementById('lightbox').classList.contains('active')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') navigateLightbox(-1);
+      if (e.key === 'ArrowRight') navigateLightbox(1);
+    });
+
+    function observeLazyImages() {
+      const images = document.querySelectorAll('img[lazy]');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.src = entry.target.dataset.src || entry.target.src;
+            entry.target.classList.add('loaded');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '100px' });
+      images.forEach(img => observer.observe(img));
     }
 
     function getComments() {
       return JSON.parse(localStorage.getItem('foodComments') || '[]');
     }
 
-    function saveComments(comments) {
+    function saveComment(comment) {
+      const comments = getComments();
+      comments.unshift(comment);
+      if (comments.length > 10) comments.pop();
       localStorage.setItem('foodComments', JSON.stringify(comments));
     }
 
-    function renderFoods(category = 'all') {
-      const grid = document.getElementById('foodGrid');
-      grid.innerHTML = '';
+    function renderComments() {
+      const comments = getComments();
+      const list = document.getElementById('commentsList');
       
-      const filteredFoods = category === 'all' ? foods : foods.filter(f => f.category === category);
-      
-      filteredFoods.forEach((food, index) => {
-        const likes = getLikes();
-        const ratings = getRatings();
-        const foodLikes = likes[food.id] || 0;
-        const foodRating = ratings[food.id] || 0;
-        
-        const card = document.createElement('div');
-        card.className = 'bg-white rounded-xl shadow-lg overflow-hidden card-hover animate-fade-in';
-        card.style.animationDelay = `${index * 0.1}s`;
-        card.innerHTML = `
-          <div class="relative h-48 cursor-pointer" onclick="openLightbox(${food.id})">
-            <img src="${food.img}" alt="${food.name}" class="w-full h-full card-image lazy" loading="lazy">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity"></div>
-            <span class="absolute top-3 left-3 bg-primary text-white px-3 py-1 rounded-full text-xs">${food.category}</span>
-            <span class="absolute bottom-3 left-3 text-white font-medium opacity-0 hover:opacity-100 transition-opacity">点击查看大图</span>
-          </div>
-          <div class="p-4">
-            <h3 class="text-lg font-bold text-dark mb-2">${food.name}</h3>
-            <p class="text-gray-600 text-sm mb-3 line-clamp-2">${food.desc}</p>
-            <div class="flex items-center justify-between">
-              <div class="star-rating" data-food-id="${food.id}">
-                ${[1,2,3,4,5].map(star => `
-                  <span class="star ${star <= foodRating ? 'active' : ''}" data-rating="${star}">&#9733;</span>
-                `).join('')}
-              </div>
-              <button class="like-btn flex items-center gap-1 text-gray-500 hover:text-primary transition-colors ${foodLikes > 0 ? 'liked' : ''}" data-food-id="${food.id}">
-                <span>${foodLikes > 0 ? '❤️' : '🤍'}</span>
-                <span>${foodLikes}</span>
-              </button>
-            </div>
-            <button class="share-btn mt-3 w-full py-2 border border-gray-200 rounded-lg text-gray-600 hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2" data-food-name="${food.name}">
-              <span>🔗</span>
-              <span>分享</span>
-            </button>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-      
-      lightboxImages = filteredFoods.map(f => ({ url: f.img, name: f.name }));
-      
-      bindEvents();
-    }
-
-    function bindEvents() {
-      document.querySelectorAll('.like-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-          e.stopPropagation();
-          const foodId = parseInt(this.dataset.foodId);
-          const likes = getLikes();
-          if (likes[foodId]) {
-            likes[foodId]++;
-          } else {
-            likes[foodId] = 1;
-          }
-          saveLikes(likes);
-          this.classList.add('liked');
-          this.innerHTML = `<span>❤️</span><span>${likes[foodId]}</span>`;
-        });
-      });
-
-      document.querySelectorAll('.star-rating .star').forEach(star => {
-        star.addEventListener('click', function() {
-          const foodId = parseInt(this.parentElement.dataset.foodId);
-          const rating = parseInt(this.dataset.rating);
-          const ratings = getRatings();
-          ratings[foodId] = rating;
-          saveRatings(ratings);
-          
-          this.parentElement.querySelectorAll('.star').forEach((s, i) => {
-            s.classList.toggle('active', i < rating);
-          });
-        });
-      });
-
-      document.querySelectorAll('.share-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const foodName = this.dataset.foodName;
-          const shareText = `推荐美食：${foodName} - 来自班级美食地图`;
-          
-          if (navigator.share) {
-            navigator.share({
-              title: foodName,
-              text: shareText,
-              url: window.location.href
-            });
-          } else {
-            navigator.clipboard.writeText(`${shareText} ${window.location.href}`).then(() => {
-              showToast();
-            });
-          }
-        });
-      });
-    }
-
-    function openLightbox(foodId) {
-      const food = foods.find(f => f.id === foodId);
-      if (food) {
-        currentLightboxIndex = lightboxImages.findIndex(img => img.url === food.img);
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImage = document.getElementById('lightboxImage');
-        lightboxImage.src = food.img;
-        lightboxImage.alt = food.name;
-        lightbox.classList.add('active');
-        document.body.style.overflow = 'hidden';
+      if (comments.length === 0) {
+        list.innerHTML = '<p class="text-center text-gray-500 py-8">还没有留言，快来抢沙发吧！</p>';
+        return;
       }
+      
+      list.innerHTML = comments.map((c, i) => `
+        <div class="comment-item bg-white rounded-xl shadow p-5">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold">
+              ${c.nickname.charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <div class="font-semibold text-dark">${escapeHtml(c.nickname)}</div>
+              <div class="text-xs text-gray-400">${c.time}</div>
+            </div>
+          </div>
+          <p class="text-gray-600 leading-relaxed">${escapeHtml(c.text)}</p>
+        </div>
+      `).join('');
     }
 
-    function closeLightbox() {
-      const lightbox = document.getElementById('lightbox');
-      lightbox.classList.remove('active');
-      document.body.style.overflow = '';
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
     }
 
-    function prevImage() {
-      currentLightboxIndex = (currentLightboxIndex - 1 + lightboxImages.length) % lightboxImages.length;
-      updateLightbox();
-    }
+    document.getElementById('commentForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nickname = document.getElementById('nicknameInput').value.trim();
+      const text = document.getElementById('commentInput').value.trim();
+      
+      if (!nickname || !text) {
+        alert('请填写昵称和留言内容');
+        return;
+      }
+      
+      const comment = {
+        nickname,
+        text,
+        time: new Date().toLocaleString('zh-CN')
+      };
+      
+      saveComment(comment);
+      document.getElementById('nicknameInput').value = '';
+      document.getElementById('commentInput').value = '';
+      renderComments();
+    });
 
-    function nextImage() {
-      currentLightboxIndex = (currentLightboxIndex + 1) % lightboxImages.length;
-      updateLightbox();
-    }
+    document.getElementById('shareBtn').addEventListener('click', async () => {
+      const shareData = {
+        title: '班级美食地图',
+        text: '发现身边美味，分享舌尖故事！',
+        url: window.location.href
+      };
+      
+      try {
+        if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+          await navigator.share(shareData);
+        } else {
+          await navigator.clipboard.writeText(window.location.href);
+          showShareToast();
+        }
+      } catch (err) {
+        try {
+          await navigator.clipboard.writeText(window.location.href);
+          showShareToast();
+        } catch (e) {
+          console.log('分享失败');
+        }
+      }
+    });
 
-    function updateLightbox() {
-      const lightboxImage = document.getElementById('lightboxImage');
-      lightboxImage.src = lightboxImages[currentLightboxIndex].url;
-      lightboxImage.alt = lightboxImages[currentLightboxIndex].name;
-    }
-
-    function showToast() {
+    function showShareToast() {
       const toast = document.getElementById('shareToast');
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 2000);
     }
 
-    function renderComments() {
-      const commentList = document.getElementById('commentList');
-      const comments = getComments();
+    window.addEventListener('scroll', () => {
+      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const progress = (scrollTop / scrollHeight) * 100;
+      document.getElementById('scrollProgress').style.width = progress + '%';
       
-      if (comments.length === 0) {
-        commentList.innerHTML = '<p class="text-center text-gray-400 py-8">暂无留言，快来发表第一条吧！</p>';
-        return;
+      const backToTop = document.getElementById('backToTop');
+      if (scrollTop > 500) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
       }
-      
-      commentList.innerHTML = comments.map((comment, index) => `
-        <div class="bg-light rounded-xl p-4 animate-fade-in" style="animation-delay: ${index * 0.05}s">
-          <div class="flex items-center gap-3 mb-2">
-            <div class="w-8 h-8 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center text-white text-sm font-bold">${comment.name.charAt(0)}</div>
-            <span class="font-medium text-dark">${comment.name}</span>
-            <span class="text-gray-400 text-xs">${comment.time}</span>
-          </div>
-          <p class="text-gray-600">${comment.content}</p>
-        </div>
-      `).join('');
-    }
+    });
 
-    function submitComment() {
-      const name = document.getElementById('commentName').value.trim();
-      const content = document.getElementById('commentContent').value.trim();
-      
-      if (!name || !content) {
-        alert('请填写昵称和留言内容');
-        return;
-      }
-      
-      const comments = getComments();
-      comments.push({
-        id: Date.now(),
-        name: name,
-        content: content,
-        time: new Date().toLocaleString('zh-CN')
-      });
-      saveComments(comments);
-      
-      document.getElementById('commentName').value = '';
-      document.getElementById('commentContent').value = '';
-      renderComments();
-    }
+    document.getElementById('backToTop').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 
     document.addEventListener('DOMContentLoaded', () => {
       renderFoods();
       renderComments();
-
-      document.querySelectorAll('.category-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-          document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active', 'bg-primary', 'text-white'));
-          document.querySelectorAll('.category-btn').forEach(b => b.classList.add('bg-gray-200', 'text-gray-700'));
-          this.classList.add('active', 'bg-primary', 'text-white');
-          this.classList.remove('bg-gray-200', 'text-gray-700');
-          currentCategory = this.dataset.category;
-          renderFoods(currentCategory);
+      
+      const cards = document.querySelectorAll('article');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.style.opacity = '1';
+              entry.target.style.transform = 'translateY(0)';
+            }, index * 50);
+            observer.unobserve(entry.target);
+          }
         });
-      });
+      }, { threshold: 0.1 });
 
-      document.getElementById('mobileMenuBtn').addEventListener('click', () => {
-        document.getElementById('mobileMenu').classList.toggle('hidden');
-      });
-
-      document.getElementById('submitComment').addEventListener('click', submitComment);
-
-      document.getElementById('commentContent').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-          submitComment();
-        }
-      });
-
-      document.getElementById('lightbox').addEventListener('click', (e) => {
-        if (e.target === document.getElementById('lightbox')) {
-          closeLightbox();
-        }
-      });
-
-      document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
-      document.getElementById('lightboxPrev').addEventListener('click', (e) => {
-        e.stopPropagation();
-        prevImage();
-      });
-      document.getElementById('lightboxNext').addEventListener('click', (e) => {
-        e.stopPropagation();
-        nextImage();
-      });
-
-      document.addEventListener('keydown', (e) => {
-        if (document.getElementById('lightbox').classList.contains('active')) {
-          if (e.key === 'Escape') closeLightbox();
-          if (e.key === 'ArrowLeft') prevImage();
-          if (e.key === 'ArrowRight') nextImage();
-        }
-      });
-
-      const backToTop = document.getElementById('backToTop');
-      const scrollProgress = document.getElementById('scrollProgress');
-
-      window.addEventListener('scroll', () => {
-        const scrollTop = window.scrollY;
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollPercent = (scrollTop / docHeight) * 100;
-        scrollProgress.style.width = `${scrollPercent}%`;
-        
-        if (scrollTop > 300) {
-          backToTop.classList.add('show');
-        } else {
-          backToTop.classList.remove('show');
-        }
-      });
-
-      backToTop.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+      cards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        observer.observe(card);
       });
     });
   </script>
+</body>
 </html>
