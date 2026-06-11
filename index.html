@@ -278,7 +278,7 @@
   </div>
 
   <div class="lightbox" id="lightbox">
-    <button class="lightbox-close" id="lightboxClose">✕</button>
+    <button class="lightbox-close" id="lightboxClose"></button>
     <button class="lightbox-nav lightbox-prev" id="lightboxPrev"></button>
     <button class="lightbox-nav lightbox-next" id="lightboxNext">❯</button>
     <img src="" alt="" id="lightboxImg">
@@ -288,18 +288,18 @@
 
   <script>
     const foods = [
-      { id: 1, name: '老北京炸酱面', category: '面条', desc: '校门口王大爷的拿手绝活，手工擀面配上秘制肉酱，黄瓜丝萝卜丝铺满碗，一口下去满嘴留香，同学们排队也要吃！', img: 'https://picsum.photos/seed/zhajiangmian/400/300' },
-      { id: 2, name: '重庆小面', category: '面条', desc: '后街小巷里的宝藏面馆，红油辣子配上花生碎，麻辣鲜香层次分明。微辣是最后的妥协，吃完额头冒汗直呼过瘾！', img: 'https://picsum.photos/seed/chongqingxiaomian/400/300' },
-      { id: 3, name: '广式肠粉', category: '早点', desc: '早餐界的温柔担当，薄如蝉翼的米皮裹着鲜虾牛肉，淋上甜酱油，入口滑嫩鲜美。早八人的续命神器，吃完元气满满！', img: 'https://picsum.photos/seed/guangshichangfen/400/300' },
-      { id: 4, name: '西安肉夹馍', category: '小吃', desc: '白吉馍外酥里嫩，腊汁肉肥而不腻，一口咬下肉汁四溢。老板说这是"中式汉堡"，但比汉堡好吃一百倍！', img: 'https://picsum.photos/seed/xianroujiamo/400/300' },
-      { id: 5, name: '长沙臭豆腐', category: '小吃', desc: '闻着臭吃着香的典范，外焦里嫩的黑豆腐配上辣椒萝卜丁，浇上秘制汤汁。第一次吃是挑战，第二次吃是上瘾！', img: 'https://picsum.photos/seed/changshachoudoufu/400/300' },
-      { id: 6, name: '台湾蚵仔煎', category: '夜宵', desc: '夜市人气王，新鲜牡蛎配上鸡蛋地瓜粉，煎得外酥内软，淋上甜辣酱。海的味道、夜市的热闹，全在这口小吃里！', img: 'https://picsum.photos/seed/taiwankezaijian/400/300' },
-      { id: 7, name: '武汉热干面', category: '面条', desc: '芝麻酱爱好者的天堂，面条筋道有嚼劲，淋上香浓芝麻酱和辣油，拌一拌，香气扑鼻。这是武汉人过早的灵魂！', img: 'https://picsum.photos/seed/wuhanreganmian/400/300' },
-      { id: 8, name: '广东早茶', category: '早点', desc: '一盅两件，精致生活。虾饺、烧麦、凤爪、蛋挞...推车叫卖声是清晨最美的旋律。吃早茶吃的不仅是味道，更是仪式感！', img: 'https://picsum.photos/seed/guangdongzaocha/400/300' },
-      { id: 9, name: '四川冒菜', category: '小吃', desc: '一个人的火锅，冒菜！各种蔬菜丸子泡在红油汤底里，麻酱蒜泥香菜标配，越吃越上头，根本停不下来！', img: 'https://picsum.photos/seed/sichuanmaocai/400/300' },
-      { id: 10, name: '山东煎饼', category: '早点', desc: '绿叶棚下的烟火气，纯杂粮面糊摊成薄饼，鸡蛋薄脆是灵魂，甜面酱辣条葱花香菜自由搭配，便宜大碗顶饿一上午！', img: 'https://picsum.photos/seed/shandongjianbing/400/300' },
-      { id: 11, name: '广东潮汕牛肉火锅', category: '夜宵', desc: '现切牛肉，部位繁多。匙柄、五花趾、吊龙...涮8秒即食，蘸上沙茶酱，鲜嫩到飞起。吃完感觉灵魂都被涮了一遍！', img: 'https://picsum.photos/seed/chaoshanniurouhuoguo/400/300' },
-      { id: 12, name: '云南过桥米线', category: '面条', desc: '仪式感满分的米线，土鸡熬制的高汤滚烫倒入，依次放入配菜和米线，温度刚好煨熟每一根米线。鲜美无比！', img: 'https://picsum.photos/seed/yunnanguoqiaomixian/400/300' }
+      { id: 1, name: '老北京炸酱面', category: '面条', desc: '校门口王大爷的拿手绝活，手工擀面配上秘制肉酱，黄瓜丝萝卜丝铺满碗，一口下去满嘴留香，同学们排队也要吃！', img: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=traditional%20Chinese%20zhajiang%20noodles%20with%20meat%20sauce%20and%20vegetables%20on%20top&image_size=landscape_4_3' },
+      { id: 2, name: '重庆小面', category: '面条', desc: '后街小巷里的宝藏面馆，红油辣子配上花生碎，麻辣鲜香层次分明。微辣是最后的妥协，吃完额头冒汗直呼过瘾！', img: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=spicy%20Chongqing%20noodles%20with%20red%20chili%20oil%20and%20peanuts&image_size=landscape_4_3' },
+      { id: 3, name: '广式肠粉', category: '早点', desc: '早餐界的温柔担当，薄如蝉翼的米皮裹着鲜虾牛肉，淋上甜酱油，入口滑嫩鲜美。早八人的续命神器，吃完元气满满！', img: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Guangdong%20steamed%20rice%20rolls%20cheung%20fun%20with%20shrimp%20and%20soy%20sauce&image_size=landscape_4_3' },
+      { id: 4, name: '西安肉夹馍', category: '小吃', desc: '白吉馍外酥里嫩，腊汁肉肥而不腻，一口咬下肉汁四溢。老板说这是"中式汉堡"，但比汉堡好吃一百倍！', img: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Xi%27an%20roujiamo%20Chinese%20hamburger%20with%20braised%20pork%20in%20crispy%20bread&image_size=landscape_4_3' },
+      { id: 5, name: '长沙臭豆腐', category: '小吃', desc: '闻着臭吃着香的典范，外焦里嫩的黑豆腐配上辣椒萝卜丁，浇上秘制汤汁。第一次吃是挑战，第二次吃是上瘾！', img: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Changsha%20stinky%20tofu%20fried%20black%20tofu%20with%20spicy%20sauce&image_size=landscape_4_3' },
+      { id: 6, name: '台湾蚵仔煎', category: '夜宵', desc: '夜市人气王，新鲜牡蛎配上鸡蛋地瓜粉，煎得外酥内软，淋上甜辣酱。海的味道、夜市的热闹，全在这口小吃里！', img: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Taiwanese%20oyster%20omelet%20fried%20with%20eggs%20and%20vegetables&image_size=landscape_4_3' },
+      { id: 7, name: '武汉热干面', category: '面条', desc: '芝麻酱爱好者的天堂，面条筋道有嚼劲，淋上香浓芝麻酱和辣油，拌一拌，香气扑鼻。这是武汉人过早的灵魂！', img: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Wuhan%20hot%20dry%20noodles%20with%20sesame%20paste%20and%20scallions&image_size=landscape_4_3' },
+      { id: 8, name: '广东早茶', category: '早点', desc: '一盅两件，精致生活。虾饺、烧麦、凤爪、蛋挞...推车叫卖声是清晨最美的旋律。吃早茶吃的不仅是味道，更是仪式感！', img: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Cantonese%20morning%20tea%20dim%20sum%20with%20har%20gaw%20siu%20mai%20and%20pastries&image_size=landscape_4_3' },
+      { id: 9, name: '四川冒菜', category: '小吃', desc: '一个人的火锅，冒菜！各种蔬菜丸子泡在红油汤底里，麻酱蒜泥香菜标配，越吃越上头，根本停不下来！', img: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Sichuan%20maocai%20spicy%20hot%20pot%20with%20vegetables%20and%20meat%20balls&image_size=landscape_4_3' },
+      { id: 10, name: '山东煎饼', category: '早点', desc: '绿叶棚下的烟火气，纯杂粮面糊摊成薄饼，鸡蛋薄脆是灵魂，甜面酱辣条葱花香菜自由搭配，便宜大碗顶饿一上午！', img: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Shandong%20pancake%20jianbing%20with%20egg%20and%20crispy%20fritter&image_size=landscape_4_3' },
+      { id: 11, name: '广东潮汕牛肉火锅', category: '夜宵', desc: '现切牛肉，部位繁多。匙柄、五花趾、吊龙...涮8秒即食，蘸上沙茶酱，鲜嫩到飞起。吃完感觉灵魂都被涮了一遍！', img: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Chaozhou%20beef%20hot%20pot%20with%20sliced%20raw%20beef%20and%20vegetables&image_size=landscape_4_3' },
+      { id: 12, name: '云南过桥米线', category: '面条', desc: '仪式感满分的米线，土鸡熬制的高汤滚烫倒入，依次放入配菜和米线，温度刚好煨熟每一根米线。鲜美无比！', img: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Yunnan%20cross%20bridge%20rice%20noodles%20with%20soup%20and%20fresh%20ingredients&image_size=landscape_4_3' }
     ];
 
     let currentLightboxIndex = 0;
