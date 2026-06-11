@@ -151,7 +151,7 @@
             </span>
           </div>
           <button id="downloadPdf" onclick="downloadAsPDF()" class="inline-flex items-center gap-2 bg-white text-primary px-5 py-2.5 rounded-full font-semibold hover:shadow-lg transition-all hover:-translate-y-1">
-            <span></span>
+            <span>📄</span>
             <span>下载PDF简历</span>
           </button>
         </div>
@@ -161,6 +161,33 @@
 
   <main class="container mx-auto px-4 py-12">
     <div id="resumeContent" class="max-w-4xl mx-auto space-y-10">
+
+      <section class="bg-white rounded-2xl shadow-lg p-8 card-hover">
+        <h2 class="text-2xl font-bold text-dark mb-6 flex items-center gap-3 border-b pb-4">
+          <span class="text-3xl"></span>
+          个人信息
+        </h2>
+        <div class="flex flex-col md:flex-row items-center gap-6">
+          <div class="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-5xl shrink-0">
+            🧑‍
+          </div>
+          <div class="text-center md:text-left flex-1">
+            <h3 class="text-2xl font-bold text-dark mb-2">张金灼</h3>
+            <p class="text-primary font-medium mb-3">Web前端开发工程师</p>
+            <div class="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-gray-600">
+              <span class="flex items-center gap-1">
+                <span>📱</span> 15372232131
+              </span>
+              <span class="flex items-center gap-1">
+                <span>📧</span> 3072323235@qq.com
+              </span>
+              <span class="flex items-center gap-1">
+                <span>📍</span> 福州
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section class="bg-white rounded-2xl shadow-lg p-8 card-hover">
         <h2 class="text-2xl font-bold text-dark mb-6 flex items-center gap-3 border-b pb-4">
@@ -179,7 +206,7 @@
 
       <section class="bg-white rounded-2xl shadow-lg p-8 card-hover">
         <h2 class="text-2xl font-bold text-dark mb-6 flex items-center gap-3 border-b pb-4">
-          <span class="text-3xl">🛠️</span>
+          <span class="text-3xl">️</span>
           专业技能
         </h2>
         
@@ -347,7 +374,7 @@
         <div class="grid md:grid-cols-2 gap-4">
           <div class="flex items-center gap-4 p-4 bg-light rounded-xl">
             <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-xl shrink-0">
-              📱
+              
             </div>
             <div>
               <div class="text-sm text-gray-500">手机</div>
@@ -356,7 +383,7 @@
           </div>
           <div class="flex items-center gap-4 p-4 bg-light rounded-xl">
             <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-xl shrink-0">
-              
+              📧
             </div>
             <div>
               <div class="text-sm text-gray-500">电子邮件</div>
@@ -415,14 +442,14 @@
       html2pdf().set(opt).from(element).save().then(() => {
         button.innerHTML = '<span>✅</span><span>下载完成</span>';
         setTimeout(() => {
-          button.innerHTML = '<span>📄</span><span>下载PDF简历</span>';
+          button.innerHTML = '<span></span><span>下载PDF简历</span>';
           button.disabled = false;
         }, 2000);
       }).catch(err => {
         button.innerHTML = '<span>❌</span><span>下载失败</span>';
         button.disabled = false;
         setTimeout(() => {
-          button.innerHTML = '<span></span><span>下载PDF简历</span>';
+          button.innerHTML = '<span>📄</span><span>下载PDF简历</span>';
         }, 2000);
       });
     }
